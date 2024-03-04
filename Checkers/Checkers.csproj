@@ -14,4 +14,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Checkers.Application\Checkers.Application.csproj" />
+    <ProjectReference Include="..\Checkers.Infrastructure\Checkers.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
