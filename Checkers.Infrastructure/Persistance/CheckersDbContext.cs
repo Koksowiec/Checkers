@@ -1,4 +1,4 @@
-﻿using Checkers.Models.DbModels;
+﻿using Checkers.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace Checkers.Infrastructure.Persistance
 
         }
 
-        DbSet<Game> Games { get; set; }
-        DbSet<GameDetails> GamesDetails { get; set; }
-        DbSet<Moves> Moves { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<GameDetails> GamesDetails { get; set; }
+        public DbSet<Moves> Moves { get; set; }
     }
 }

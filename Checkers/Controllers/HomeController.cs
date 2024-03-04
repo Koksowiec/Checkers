@@ -1,4 +1,6 @@
-﻿using Checkers.Models;
+﻿using Checkers.Domain.Entities;
+using Checkers.Domain.Interfaces;
+using Checkers.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +9,12 @@ namespace Checkers.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IGameRepository _gameRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IGameRepository gameRepository)
         {
             _logger = logger;
+            _gameRepository = gameRepository;
         }
 
         public IActionResult Index()
@@ -18,9 +22,11 @@ namespace Checkers.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            var games = await _gameRepository.GetAllAsync();
+
+            return View(games);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
