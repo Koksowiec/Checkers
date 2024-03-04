@@ -1,5 +1,4 @@
-using Checkers.Infrastructure.Persistance;
-using Microsoft.EntityFrameworkCore;
+using Checkers.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// DB: https://www.youtube.com/watch?v=S7SdtcIr28s
-builder.Services.AddDbContext<CheckersDbContext>(options => options.UseSqlite(
-    builder.Configuration.GetConnectionString("localDb")));
+// Add services to the container.
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
