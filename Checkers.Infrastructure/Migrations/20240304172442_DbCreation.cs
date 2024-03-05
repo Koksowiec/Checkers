@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Checkers.Migrations
+namespace Checkers.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDbContext : Migration
+    public partial class DbCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

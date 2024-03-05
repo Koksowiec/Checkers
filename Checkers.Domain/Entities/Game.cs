@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Checkers.Models.DbModels
+namespace Checkers.Domain.Entities
 {
     public class Game
     {
