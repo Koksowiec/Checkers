@@ -2,10 +2,22 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div id="container">
+    <video autoplay muted loop id="myVideo">
+        <source src="/assets/videos/background.mp4" type="video/mp4">
+    </video>
+
+    <div id="title">W A R C A B Y</div>
+    <div id="glass">
+        <button type="button" id="goTo" onclick="goTo()">Go to room</button>
+        <p id="roomNumber">Wpisz numer pokoju:</p>
+        <input id='roomInput' type="number">
+        <button type="button" id="createNew" onclick="createNewRoom()">Create new room +</button>
+    </div>
+
+    <div id="highscore">
+    </div>
 </div>
-<div>
-    <span>TEST</span>
-</div>
+
+
