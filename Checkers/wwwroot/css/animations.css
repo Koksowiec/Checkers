@@ -1,0 +1,29 @@
+﻿#glass.slide-out {
+    animation: slideOut 1s forwards;
+}
+
+@keyframes slideOut {
+    to {
+        transform: translateY(-200%);
+    }
+}
+
+#highscore.slide-out {
+    animation: slideOutHighscore 1s forwards;
+}
+
+@keyframes slideOutHighscore {
+    to {
+        transform: translateX(150%);
+    }
+}
+
+#title.slide-out {
+    animation: slideOutTitle 1s forwards;
+}
+
+@keyframes slideOutTitle {
+    to {
+        transform: translateY(-175%);
+    }
+}
