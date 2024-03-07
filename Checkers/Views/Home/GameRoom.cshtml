@@ -1,4 +1,5 @@
 ﻿@using Checkers.Models.Checker
+@model string
 @{
     List<Checker> P1Checkers = new List<Checker>();
     List<Checker> P2Checkers = new List<Checker>();
@@ -36,6 +37,13 @@
     Checker activeChecker = null;
 }
 
+<div>
+    P1: @Model
+</div>
+<div>
+    <button id="createNewGameBtn" type="button">Create New Game</button>
+</div>
+
 @for (int i = 0; i < 8; i++)
 {
     <div class="row">
@@ -60,4 +68,7 @@
         }
     </div>
 }
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/gameHub.js"></script>
+
 <script src="~/js/gameRoom.js"></script>

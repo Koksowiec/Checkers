@@ -34,6 +34,13 @@ namespace Checkers.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Route("Game")]
+        public IActionResult CreateGame(string playerName)
+        {
+            return View("GameRoom", playerName);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

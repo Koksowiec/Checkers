@@ -32,6 +32,11 @@ function CheckerOnClick() {
 function CellOnClick() {
     $(document).on("click", ".cell", function () {
         if ($(this).hasClass("active")) {
+            let previousCheckerRow = parseInt(checkerRow);
+            let previousCheckerColumn = parseInt(checkerColumn);
+            let nextCheckerRow = parseInt($(this).attr("data-row"));
+            let nextCheckerColumn = parseInt($(this).attr("data-column"));
+
             checker.appendTo($(this));
 
             checker.attr("data-row", $(this).attr("data-row"));
@@ -47,6 +52,8 @@ function CellOnClick() {
                     checker.append($('<span class="king">K</span>'));
                 }
             }
+
+            SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn);
         }
     });
 }
@@ -113,6 +120,8 @@ function CanJumpOver(possibleCell) {
         possibleCell.addClass("active")
     }
     else {
+        // Check if can Jump over
+        // Check if the checker in the cell is on enemy team, if so then proceed
         let possibleCellChecker = possibleCell.children().eq(0);
        
         if (possibleCellChecker.attr("data-player") != checkerPlayer) {

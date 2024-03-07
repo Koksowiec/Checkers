@@ -1,9 +1,10 @@
 ﻿rooms = [1];
-highcores = [['Andy' , 122], ['Rock' , 84], ['Wendy' , 64], ['Danny' , 51]]
+highcores = [['Andy', 122], ['Rock', 84], ['Wendy', 64], ['Danny', 51]]
+
 function createNewRoom(){
     number = generateNumber()
     rooms.push(number)
-    alert("Twój pokój ma numer: "+number)
+    return number;
 }
 
 function generateNumber(){

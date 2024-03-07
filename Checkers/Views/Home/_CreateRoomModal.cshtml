@@ -1,4 +1,5 @@
-﻿<!-- Button trigger modal -->
+﻿@model string
+<!-- Button trigger modal -->
 <button type="button" id="createNew" onclick="createNewRoom()" data-bs-toggle="modal" data-bs-target="#createRoomModal">
     Create new room +
 </button>
@@ -7,42 +8,21 @@
 <div class="modal" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createRoomModalLabel">Wpisz swój nick</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row p-1">
-                    <div class="col-1">User</div>
-                    <div class="col-5"><input type="text" id="userInput" /></div>
+            @using (Html.BeginForm("CreateGame", "Home", FormMethod.Post))
+            {   
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createRoomModalLabel">Create a room</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="row p-1">
-                    <div class="col-1">Message</div>
-                    <div class="col-5"><input type="text" class="w-100" id="messageInput" /></div>
+                <div class="modal-body">
+                    <h5>Please enter a player name</h5>
+                    <input type="text" id="playerName" name="playerName" placeholder="Player Name"/>
                 </div>
-                <div class="row p-1">
-                    <div class="col-6 text-end">
-                        <input type="button" id="sendButton" value="Send Message" />
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create New Game</button>
                 </div>
-                <div class="row p-1">
-                    <div class="col-6">
-                        <hr />
-                    </div>
-                </div>
-                <div class="row p-1">
-                    <div class="col-6">
-                        <ul id="messagesList"></ul>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            }
         </div>
     </div>
 </div>
-
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/gameHub.js"></script>

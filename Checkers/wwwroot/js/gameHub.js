@@ -1,30 +1,41 @@
 "use strict";
+let connection;
+let roomNumber;
+$(document).ready(function () {
+    connection = new signalR.HubConnectionBuilder().withUrl("gamehub").build();
+    roomNumber = createNewRoom();
+    $("#newGameRoomNumber").html("Your room number: " + roomNumber);
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/gamehub").build();
+    connection.on("connected", function () {
+        console.log("Connected to the hub.");
+    });
 
-//Disable the send button until connection is established.
-document.getElementById("sendButton").disabled = true;
+    connection.start().then(function () {
+        CreateGameOnClick();
+    });
 
-connection.on("ReceiveMessage", function (user, message) {
-    var li = document.createElement("li");
-    document.getElementById("messagesList").appendChild(li);
-    // We can assign user-supplied strings to an element's textContent because it
-    // is not interpreted as markup. If you're assigning in any other way, you 
-    // should be aware of possible script injection concerns.
-    li.textContent = `${user} says ${message}`;
+    /*
+    connection.on("ReceiveMessage", function (user, message) {
+        var li = document.createElement("li");
+        document.getElementById("messagesList").appendChild(li);
+        // We can assign user-supplied strings to an element's textContent because it
+        // is not interpreted as markup. If you're assigning in any other way, you 
+        // should be aware of possible script injection concerns.
+        li.textContent = `${user} says ${message}`;
+    });
+    */
 });
 
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
+function CreateGameOnClick() {
+    $(document).on("click", "#createNewGameBtn", function () {
+        connection.invoke("CreateGame", roomNumber.toString()).catch(function (err) {
+            return console.error(err.toString());
+        });
+    });
+}
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn) {
+    connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn).catch(function (err) {
         return console.error(err.toString());
     });
-    event.preventDefault();
-});
+}

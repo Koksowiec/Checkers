@@ -1,5 +1,5 @@
+using Checkers.GameHub;
 using Checkers.Infrastructure.Extensions;
-using Checkers.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
