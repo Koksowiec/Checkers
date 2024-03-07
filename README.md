@@ -1,8 +1,8 @@
 # Checkers - multiplayer
-Członkowie:
-Krzysztof Szczepański
-Adam Kateka
-Mikołaj Tomasiczek
+# Członkowie:
+Krzysztof Szczepański. 
+Adam Kateka. 
+Mikołaj Tomasiczek. 
 
 # Dlaczego?
 Jako grupa chcielibyśmy sprawdzić swoje umiejętnosći i stworzyć pełnoprawną aplikację internetową, pozwalającą graczom grać wspólnie w warcaby.
