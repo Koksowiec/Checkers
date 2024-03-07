@@ -106,13 +106,22 @@ function UpdateDirectionWhenOnBoardEnd(player) {
 }
 
 function CanJumpOver(possibleCell) {
+    let possibleCellRow = parseInt(possibleCell.attr("data-row"));
+    let possibleCellColumn = parseInt(possibleCell.attr("data-column"));
+
     if (possibleCell.find(".checker").length == 0) {
         possibleCell.addClass("active")
     }
     else {
-        //let columnDifference = parseInt(possibleCell.attr("data-column")) - parseInt(checkerColumn);
-        //let rowDifference = parseInt(possibleCell.attr("data-row")) - parseInt(checkerRow);
-        //possibleCell = $('div.cell[data-row="' + (possibleRows[0] + rowDifference) + '"][data-column="' + (possibleColumns[0] + columnDifference) + '"]');
-        //CanJumpOver(possibleCell);
+        let possibleCellChecker = possibleCell.children().eq(0);
+       
+        if (possibleCellChecker.attr("data-player") != checkerPlayer) {
+            let columnDifference = parseInt(possibleCell.attr("data-column")) - parseInt(checkerColumn);
+            let rowDifference = parseInt(possibleCell.attr("data-row")) - parseInt(checkerRow);
+
+            possibleCell = $('div.cell[data-row="' + (possibleCellRow + rowDifference) + '"][data-column="' + (possibleCellColumn + columnDifference) + '"]');
+            
+            CanJumpOver(possibleCell);
+        }
     }
 }
