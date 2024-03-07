@@ -1,0 +1,63 @@
+﻿@using Checkers.Models.Checker
+@{
+    List<Checker> P1Checkers = new List<Checker>();
+    List<Checker> P2Checkers = new List<Checker>();
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = (i + 1) % 2; j < 8; j+= 2)
+        {
+            P2Checkers.Add(new Checker
+            {
+                Player = Player.P2,
+                Color = "black",
+                Column = j,
+                Row = i,
+                Direction = CheckerDirection.Down,
+            });
+        }
+    }
+
+    for (int i = 5; i < 8; i++)
+    {
+        for (int j = (i + 1) % 2; j < 8; j += 2)
+        {
+            P1Checkers.Add(new Checker
+            {
+                Player = Player.P1,
+                Color = "white",
+                Column = j,
+                Row = i,
+                Direction = CheckerDirection.Up,
+            });
+        }
+    }
+
+    Checker activeChecker = null;
+}
+
+@for (int i = 0; i < 8; i++)
+{
+    <div class="row">
+        @for(int j = 0; j < 8; j++)
+        {
+            var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+            if(checker == null)
+            {
+                checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+            }
+            <div class="cell" data-row="@i" data-column="@j">
+                @if(checker != null)
+                {
+                    <div 
+                        class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
+                        data-row="@checker.Row"
+                        data-column="@checker.Column"
+                        data-direction="@checker.Direction"
+                        data-player="@checker.Player"></div>
+                }
+            </div>
+        }
+    </div>
+}
+<script src="~/js/gameRoom.js"></script>

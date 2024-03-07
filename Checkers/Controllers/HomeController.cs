@@ -29,6 +29,11 @@ namespace Checkers.Controllers
             return View(games);
         }
 
+        public async Task<IActionResult> GameRoom()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
