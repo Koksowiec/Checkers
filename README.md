@@ -5,7 +5,7 @@ Adam Kateka
 Mikołaj Tomasiczek
 
 # Dlaczego?
-Jako grupa chcielibyśmy sprawdzić swoje umiejętnosći i stworzyć pełnoprawną aplikację internetową, pozwalającą graczom grać wspólnie w waecaby.
+Jako grupa chcielibyśmy sprawdzić swoje umiejętnosći i stworzyć pełnoprawną aplikację internetową, pozwalającą graczom grać wspólnie w warcaby.
 
 # Co?
 Warcaby - multiplayer
