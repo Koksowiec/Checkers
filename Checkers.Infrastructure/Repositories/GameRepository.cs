@@ -24,8 +24,17 @@ namespace Checkers.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task CreateAsync(Game game)
+        public async Task CreateAsync(string gameId, string p1Name = "")
         {
+            var game = new Game()
+            {
+                Id = Int32.Parse(gameId),
+                P1 = p1Name,
+                P2 = "",
+                Winner = "",
+                StartingPlayer = ""
+            };
+
             await _dbContext.AddAsync(game);
             await Commit();
         }
@@ -33,6 +42,35 @@ namespace Checkers.Infrastructure.Repositories
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
             return await _dbContext.Games.ToListAsync();
+        }
+
+        public async Task<Game>? GetGameById(string gameId)
+        {
+            return await _dbContext.Games.FirstOrDefaultAsync(g => g.Id == Int32.Parse(gameId));
+        }
+
+        public async Task UpdateGameP1(string gameId, string name)
+        {
+            var game = await GetGameById(gameId);
+            if(game != null)
+            {
+                game.P1 = name;
+
+                _dbContext.Update(game);
+                await Commit();
+            }
+        }
+
+        public async Task UpdateGameP2(string gameId, string name)
+        {
+            var game = await GetGameById(gameId);
+            if (game != null)
+            {
+                game.P2 = name;
+
+                _dbContext.Update(game);
+                await Commit();
+            }
         }
     }
 }

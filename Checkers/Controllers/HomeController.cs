@@ -1,8 +1,10 @@
 ﻿using Checkers.Domain.Entities;
 using Checkers.Domain.Interfaces;
 using Checkers.Models;
+using Checkers.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Checkers.Controllers
 {
@@ -17,16 +19,49 @@ namespace Checkers.Controllers
             _gameRepository = gameRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            var games = await _gameRepository.GetAllAsync();
+            var gamesList = games.ToList();
+            return View(gamesList);
+        }
+
+        public async Task<IActionResult> GameRoom()
         {
             return View();
         }
 
-        public async Task<IActionResult> Privacy()
+        [HttpPost]
+        public async Task<IActionResult> CreateGame(string gameId, string p1Name)
+        {
+            await _gameRepository.CreateAsync(gameId, p1Name);
+
+            var request = new RequestViewModel()
+            {
+                GameId = gameId,
+                Method = RequestMethods.create
+            };
+
+            return View("GameRoom", request);
+        }
+
+        [HttpPost]
+        public IActionResult JoinGame(string gameId)
+        {
+            var request = new RequestViewModel()
+            {
+                GameId = gameId,
+                Method = RequestMethods.join
+            };
+
+            return View("GameRoom", request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRooms(string playerName)
         {
             var games = await _gameRepository.GetAllAsync();
-
-            return View(games);
+            return View("Index", games.ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

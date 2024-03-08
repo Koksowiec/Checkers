@@ -1,3 +1,4 @@
+using Checkers.GameHub;
 using Checkers.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// SignalR
+builder.Services.AddSignalR();
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -26,8 +30,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapHub<GameHub>("/Home/gamehub");
+});
 
 app.Run();

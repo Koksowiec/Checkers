@@ -10,7 +10,10 @@ namespace Checkers.Domain.Interfaces
     public interface IGameRepository
     {
         Task Commit();
-        Task CreateAsync(Game game);
+        Task CreateAsync(string gameId, string p1Name = "");
         Task<IEnumerable<Game>> GetAllAsync();
+        Task<Game>? GetGameById(string gameId);
+        Task UpdateGameP1(string gameId, string name);
+        Task UpdateGameP2(string gameId, string name);
     }
 }

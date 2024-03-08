@@ -1,21 +1,77 @@
-﻿
-   rooms = [1];
-    highcores = [['Andy' , 122], ['Rock' , 84], ['Wendy' , 64], ['Danny' , 51]]
-    function createNewRoom(){
+﻿// SignalR START
+"use strict";
+let connection = null;
+let roomNumber;
 
-        number = generateNumber()
-        rooms.push(number)
-    alert("Twój pokój ma numer: "+number)
+$(document).ready(function () {
+    connection = new signalR.HubConnectionBuilder().withUrl("gamehub").build();
 
+    roomNumber = createNewRoom();
+    $("#newGameRoomNumber").html("Your room number: " + roomNumber);
+
+    connection.on("connected", function () {
+        console.log("Connected to the hub.");
+    });
+
+    $("#createRoomNumber").val(generateNumber());
+
+    connection.start().then(function () {
+        HandleRequest();
+        //CreateGameOnClick();
+        //JoinGameOnClick();
+        SendCheckerMove();
+    });
+
+    /*
+    connection.on("ReceiveMessage", function (user, message) {
+        var li = document.createElement("li");
+        document.getElementById("messagesList").appendChild(li);
+        // We can assign user-supplied strings to an element's textContent because it
+        // is not interpreted as markup. If you're assigning in any other way, you 
+        // should be aware of possible script injection concerns.
+        li.textContent = `${user} says ${message}`;
+    });
+    */
+});
+
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn) {
+    connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function HandleRequest() {
+    let method = $("#signalRMethod").attr("data-method");
+    let gameId = $("#signalRGameId").attr("data-gameId");
+    if (method == "join") {
+        connection.invoke("JoinGame", gameId.toString()).catch(function (err) {
+            return console.error(err.toString());
+        });
     }
-
-    function generateNumber(){
-        return Math.floor(Math.random() * 899999 + 100000)
+    else if (method == "create") {
+        connection.invoke("CreateGame", gameId.toString()).catch(function (err) {
+            return console.error(err.toString());
+        });
     }
+}
 
+// SignalR END
 
-    function generateRanking() {
-        let highscoreElement = document.getElementById('highscore');
+let rooms = [1];
+let highcores = [['Andy', 122], ['Rock', 84], ['Wendy', 64], ['Danny', 51]]
+
+function createNewRoom(){
+    let number = generateNumber()
+    rooms.push(number)
+    return number;
+}
+
+function generateNumber(){
+    return Math.floor(Math.random() * 899999 + 100000)
+}
+
+function generateRanking() {
+    let highscoreElement = document.getElementById('highscore');
 
     // Wyczyszczenie aktualnej zawartości, żeby nie dublować wyników przy każdym wywołaniu
     highscoreElement.innerHTML = "<h2><b>Highscores:</b></h2>"; // Możesz zmodyfikować, aby pasowało do Twojego stylu
@@ -25,22 +81,22 @@
         highscoreElement.innerHTML += "<div class='rank'>" + score[0] + ": <span>" + score[1] + "</span></div>";
     });
 }
-    generateRanking()
+generateRanking()
 
-    function goTo() {
-        toRoom = document.getElementById('roomInput').value;
+function goTo() {
+    toRoom = document.getElementById('roomInput').value;
 
     if (rooms.includes(parseInt(toRoom))) {
         // Dodaj klasę slide-out do kontenera i highscore
         document.getElementById('glass').classList.add('slide-out');
-    document.getElementById('highscore').classList.add('slide-out');
-    document.getElementById('title').classList.add('slide-out');
+        document.getElementById('highscore').classList.add('slide-out');
+        document.getElementById('title').classList.add('slide-out');
 
-    // Poczekaj na zakończenie animacji, a następnie wyświetl komunikat
-    setTimeout(function () {
-        alert("Pokój o numerze " + toRoom + " został znaleziony!");
-                }, 1000);
-            } else {
+        // Poczekaj na zakończenie animacji, a następnie wyświetl komunikat
+        setTimeout(function () {
+            alert("Pokój o numerze " + toRoom + " został znaleziony!");
+        }, 1000);
+    } else {
         alert("Pokój o numerze " + toRoom + " nie został znaleziony.");
-            }
-        }
+    }
+}

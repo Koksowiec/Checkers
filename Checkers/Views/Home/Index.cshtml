@@ -1,7 +1,30 @@
-﻿@{
+﻿@using Checkers.Domain.Entities
+@using Microsoft.AspNetCore.SignalR.Client
+@model List<Game>
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<div>
+    <h5>Available Games</h5>
+    @if (Model != null)
+    {
+        @foreach (var game in Model)
+        {
+            if(game.P2 == string.Empty)
+            {
+                <div>
+                    @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
+                    {
+                        <input type="hidden" value="@game.Id" name="gameId" />
+                        <span>@game.Id</span>
+                        <button type="submit" data-gameId="@game.Id">Join Game</button>
+                    }
+                </div>
+            }
+        }
+    }
+</div>
 
 <div id="container">
     <video autoplay muted loop id="myVideo">
@@ -13,11 +36,10 @@
         <button type="button" id="goTo" onclick="goTo()">Go to room</button>
         <p id="roomNumber">Wpisz numer pokoju:</p>
         <input id='roomInput' type="number">
-        <button type="button" id="createNew" onclick="createNewRoom()">Create new room +</button>
     </div>
+
+    <partial name="_CreateRoomModal" model="string.Empty"></partial>
 
     <div id="highscore">
     </div>
 </div>
-
-
