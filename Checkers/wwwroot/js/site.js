@@ -1,8 +1,67 @@
-﻿rooms = [1];
-highcores = [['Andy', 122], ['Rock', 84], ['Wendy', 64], ['Danny', 51]]
+﻿// SignalR START
+"use strict";
+let connection = null;
+let roomNumber;
+
+$(document).ready(function () {
+    connection = new signalR.HubConnectionBuilder().withUrl("gamehub").build();
+
+    roomNumber = createNewRoom();
+    $("#newGameRoomNumber").html("Your room number: " + roomNumber);
+
+    connection.on("connected", function () {
+        console.log("Connected to the hub.");
+    });
+
+    $("#createRoomNumber").val(generateNumber());
+
+    connection.start().then(function () {
+        HandleRequest();
+        //CreateGameOnClick();
+        //JoinGameOnClick();
+        SendCheckerMove();
+    });
+
+    /*
+    connection.on("ReceiveMessage", function (user, message) {
+        var li = document.createElement("li");
+        document.getElementById("messagesList").appendChild(li);
+        // We can assign user-supplied strings to an element's textContent because it
+        // is not interpreted as markup. If you're assigning in any other way, you 
+        // should be aware of possible script injection concerns.
+        li.textContent = `${user} says ${message}`;
+    });
+    */
+});
+
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn) {
+    connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function HandleRequest() {
+    let method = $("#signalRMethod").attr("data-method");
+    let gameId = $("#signalRGameId").attr("data-gameId");
+    if (method == "join") {
+        connection.invoke("JoinGame", gameId.toString()).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+    else if (method == "create") {
+        connection.invoke("CreateGame", gameId.toString()).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+}
+
+// SignalR END
+
+let rooms = [1];
+let highcores = [['Andy', 122], ['Rock', 84], ['Wendy', 64], ['Danny', 51]]
 
 function createNewRoom(){
-    number = generateNumber()
+    let number = generateNumber()
     rooms.push(number)
     return number;
 }

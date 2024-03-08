@@ -1,5 +1,6 @@
 ﻿@using Checkers.Models.Checker
-@model string
+@using Checkers.Models.ViewModels
+@model RequestViewModel
 @{
     List<Checker> P1Checkers = new List<Checker>();
     List<Checker> P2Checkers = new List<Checker>();
@@ -36,12 +37,10 @@
 
     Checker activeChecker = null;
 }
-
+<div id="signalRMethod" data-method="@Model.Method"></div>
+<div id="signalRGameId" data-gameId="@Model.GameId"></div>
 <div>
-    P1: @Model
-</div>
-<div>
-    <button id="createNewGameBtn" type="button">Create New Game</button>
+    P1:
 </div>
 
 @for (int i = 0; i < 8; i++)
@@ -68,7 +67,3 @@
         }
     </div>
 }
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/gameHub.js"></script>
-
-<script src="~/js/gameRoom.js"></script>
