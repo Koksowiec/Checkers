@@ -1,7 +1,7 @@
 # Checkers - multiplayer
 # Członkowie:
 Krzysztof Szczepański. 
-Adam Kateka. 
+Adam Kwika. 
 Mikołaj Tomasiczek. 
 
 # Dlaczego?
