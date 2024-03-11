@@ -1,13 +1,15 @@
 ﻿// SignalR START
 "use strict";
 let connection = null;
-let roomNumber;
+let ROOM_NUMBER;
+let CURRENT_PLAYER = null;
+let CAN_PLAYER_MOVE = false;
 
 $(document).ready(function () {
     connection = new signalR.HubConnectionBuilder().withUrl("gamehub").build();
 
-    roomNumber = createNewRoom();
-    $("#newGameRoomNumber").html("Your room number: " + roomNumber);
+    ROOM_NUMBER = createNewRoom();
+    $("#newGameRoomNumber").html("Your room number: " + ROOM_NUMBER);
 
     connection.on("connected", function () {
         console.log("Connected to the hub.");
@@ -20,6 +22,26 @@ $(document).ready(function () {
         //CreateGameOnClick();
         //JoinGameOnClick();
         SendCheckerMove();
+
+        connection.on("TableJoined", function () {
+            TableJoined();
+        });
+
+        connection.on("YouJoined", function () {
+            YouJoined();
+        });
+
+        connection.on("GameCreated", function () {
+            GameCreated();
+        });
+
+        connection.on("EnemyMoved", function (newMove) {
+            EnemyMoved(newMove);
+        });
+
+        connection.on("YouMoved", function () {
+            YouMoved();
+        });
     });
 
     /*
@@ -34,10 +56,13 @@ $(document).ready(function () {
     */
 });
 
-function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn) {
-    connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn).catch(function (err) {
-        return console.error(err.toString());
-    });
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer) {
+    // Check if at least one of the parameters is not undefined, then proceed
+    if (previousCheckerColumn != undefined) {
+        connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
 }
 
 function HandleRequest() {
@@ -53,6 +78,37 @@ function HandleRequest() {
             return console.error(err.toString());
         });
     }
+}
+
+function TableJoined() {
+    console.log("Someone joined in on the game!");
+    CAN_PLAYER_MOVE = true;
+}
+
+function YouJoined() {
+    console.log("You joined in on the game!");
+    CAN_PLAYER_MOVE = false;
+
+    if (CURRENT_PLAYER == null) {
+        CURRENT_PLAYER = "P2"
+    }
+}
+
+function GameCreated() {
+    console.log("You have successfully created a game");
+    CURRENT_PLAYER = "P1";
+}
+
+function EnemyMoved(newMove) {
+    UpdateTable(newMove);
+
+    console.log("Enemy moved, now your turn");
+    CAN_PLAYER_MOVE = true;
+}
+
+function YouMoved() {
+    console.log("You moved, now enemy turn");
+    CAN_PLAYER_MOVE = false;
 }
 
 // SignalR END

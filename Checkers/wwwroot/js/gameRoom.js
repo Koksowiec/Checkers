@@ -7,6 +7,10 @@ let checkerPlayer;
 let possibleRows = [];
 let possibleColumns = [];
 
+let CAN_JUMP_OVER = false;
+
+// Take into consideration the global variables created in site.js
+
 $(document).ready(function () {
     CheckerOnClick();
 
@@ -15,23 +19,27 @@ $(document).ready(function () {
 
 function CheckerOnClick() {
     $(document).on("click", ".checker", function () {
-        checker = $(this);
-        checkerRow = checker.attr("data-row");
-        checkerColumn = checker.attr("data-column");
-        checkerDirection = checker.attr("data-direction");
-        checkerPlayer = checker.attr("data-player");
+        if (CAN_PLAYER_MOVE) {
+            checker = $(this);
+            checkerRow = checker.attr("data-row");
+            checkerColumn = checker.attr("data-column");
+            checkerDirection = checker.attr("data-direction");
+            checkerPlayer = checker.attr("data-player");
 
-        clearAllCheckersActiveClassess();
+            if (CURRENT_PLAYER == checkerPlayer) {
+                clearAllCheckersActiveClassess();
 
-        $(this).addClass("active");
+                $(this).addClass("active");
 
-        EvaluateCheckerSpots(checkerRow, checkerColumn, checkerDirection);
+                EvaluateCheckerSpots(checkerRow, checkerColumn, checkerDirection);
+            }
+        }
     });
 }
 
 function CellOnClick() {
     $(document).on("click", ".cell", function () {
-        if ($(this).hasClass("active")) {
+        if ($(this).hasClass("active") && CAN_PLAYER_MOVE) {
             let previousCheckerRow = parseInt(checkerRow);
             let previousCheckerColumn = parseInt(checkerColumn);
             let nextCheckerRow = parseInt($(this).attr("data-row"));
@@ -53,7 +61,8 @@ function CellOnClick() {
                 }
             }
 
-            SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn);
+            gameId = $("#signalRGameId").attr("data-gameId");
+            SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, gameId, CURRENT_PLAYER);
         }
     });
 }
@@ -131,6 +140,24 @@ function CanJumpOver(possibleCell) {
             possibleCell = $('div.cell[data-row="' + (possibleCellRow + rowDifference) + '"][data-column="' + (possibleCellColumn + columnDifference) + '"]');
             
             CanJumpOver(possibleCell);
+
+            canJumpOver = true;
         }
     }
+}
+
+function UpdateTable(newMove) {
+    let move = newMove.toString();
+    let movesArray = move.split(";");
+    let lastMove = movesArray[movesArray.length - 1];
+
+    let movesToUpdate = lastMove.split("-");
+    let previousMove = movesToUpdate[0].split("_");
+    let nextMove = movesToUpdate[1].split("_");
+
+    let previousCell = $('div.cell[data-row="' + previousMove[1] + '"][data-column="' + previousMove[0] + '"]');
+    let nextCell = $('div.cell[data-row="' + nextMove[1] + '"][data-column="' + nextMove[0] + '"]');
+
+    let checkerToMove = previousCell.children(".checker");
+    checkerToMove.appendTo(nextCell);
 }
