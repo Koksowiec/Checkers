@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 body, html {
@@ -11,8 +11,9 @@ body, html {
 }
 
 #container {
+    margin-top: -5%;
     width: 100%;
-    height: 100vh;
+    height: 96vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,16 +78,17 @@ input[type="number"]::-webkit-inner-spin-button {
 #myVideo {
     position: fixed;
     min-width: 100%;
-    min-height: 100%;
+    min-height: 20vh;
     z-index: -1;
 }
 
 #createNew {
-    width: 40%;
-    height: 20%;
+    width: 30%;
+    height: 15%;
     border-radius: 10px;
-    top: 40%;
-    left: 40%;
+    position: relative;
+    top: -10%;
+    left: 20%;
     transform: rotate(-10deg);
     font-size: 1.25rem;
     padding: 5px;
@@ -97,6 +99,7 @@ input[type="number"]::-webkit-inner-spin-button {
     background-color: rgba(131, 230, 255, 0.75);
     border: solid rgba(135, 235, 255, 0.75);
     text-shadow: 0 0 6px white;
+    transition: linear 0.1s
 }
 
 #highscore {
@@ -111,12 +114,12 @@ input[type="number"]::-webkit-inner-spin-button {
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 45%;
+    top: 47.5%;
     transform: translate(0, -50%);
     left: 85%;
     z-index: -1;
     padding: 1%;
-    font-size: 2rem;
+    font-size: 5rem;
 }
 
 .rank {
@@ -124,7 +127,6 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 10%;
     background: rgba(55, 208, 255, 0.66);
     border: solid rgba(135, 235, 255, 0.75);
-    ;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5.2px);
@@ -160,4 +162,55 @@ input[type="number"]::-webkit-inner-spin-button {
     background-color: rgba(131, 230, 255, 0.75);
     border: solid rgba(135, 235, 255, 0.75);
     text-shadow: 0 0 6px white;
+    transition: linear 0.1s;
+}
+
+#roomsList {
+    width: 15%;
+    height: 75%;
+    background: rgba(55, 208, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5.2px);
+    -webkit-backdrop-filter: blur(5.2px);
+    position: absolute;
+    top: 47.5%;
+    transform: translate(0, -50%);
+    left: 0%;
+    z-index: 1;
+    padding: 1%;
+    font-size: 2rem;
+    overflow-y: auto; /* Zapewnia, że przewijanie jest włączone tylko wtedy, gdy jest potrzebne */
+    scrollbar-color: transparent transparent; /* Kolor paska i tła (dla przeglądarek wspierających) */
+}
+
+    #roomsList::-webkit-scrollbar-track {
+        background: transparent; /* Kolor tła paska przewijania */
+    }
+
+
+
+
+
+.room {
+    width: 95%;
+    height: 10%;
+    background: rgba(55, 208, 255, 0.66);
+    border: solid rgba(135, 235, 255, 0.75);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5.2px);
+    -webkit-backdrop-filter: blur(5.2px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.75rem;
+    font-weight: 650;
+}
+
+.footer {
+    background:white;
 }
