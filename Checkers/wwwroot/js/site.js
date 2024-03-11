@@ -23,12 +23,12 @@ $(document).ready(function () {
         //JoinGameOnClick();
         SendCheckerMove();
 
-        connection.on("TableJoined", function () {
-            TableJoined();
+        connection.on("TableJoined", function (p1Name, p2Name) {
+            TableJoined(p1Name, p2Name);
         });
 
-        connection.on("YouJoined", function () {
-            YouJoined();
+        connection.on("YouJoined", function (p1Name, p2Name) {
+            YouJoined(p1Name, p2Name);
         });
 
         connection.on("GameCreated", function () {
@@ -68,8 +68,11 @@ function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerR
 function HandleRequest() {
     let method = $("#signalRMethod").attr("data-method");
     let gameId = $("#signalRGameId").attr("data-gameId");
+    let p2Name = $("#signalRP2Name").attr("data-p2Name");
+    p2Name = p2Name == undefined ? "" : p2Name;
+
     if (method == "join") {
-        connection.invoke("JoinGame", gameId.toString()).catch(function (err) {
+        connection.invoke("JoinGame", gameId.toString(), p2Name).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -80,12 +83,18 @@ function HandleRequest() {
     }
 }
 
-function TableJoined() {
+function TableJoined(p1Name, p2Name) {
+    $("#p1Name").html("P1: " + p1Name);
+    $("#p2Name").html("P2: " + p2Name);
+
     console.log("Someone joined in on the game!");
     CAN_PLAYER_MOVE = true;
 }
 
-function YouJoined() {
+function YouJoined(p1Name, p2Name) {
+    $("#p1Name").html("P1: " + p1Name);
+    $("#p2Name").html("P2: " + p2Name);
+
     console.log("You joined in on the game!");
     CAN_PLAYER_MOVE = false;
 

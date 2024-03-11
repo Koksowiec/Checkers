@@ -14,16 +14,13 @@
             if(game.P2 == string.Empty)
             {
                 <div>
-                    @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
-                    {
-                        <input type="hidden" value="@game.Id" name="gameId" />
-                        <span>@game.Id</span>
-                        <button type="submit" data-gameId="@game.Id">Join Game</button>
-                    }
+                    <span>@game.Id</span>
+                    <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
                 </div>
             }
         }
     }
+    
 </div>
 
 <div id="container">

@@ -28,19 +28,20 @@ namespace Checkers.GameHub
             await Clients.Caller.SendAsync("GameCreated");
         }
 
-        public async Task JoinGame(string gameId)
+        public async Task JoinGame(string gameId, string p2Name)
         {
             var game = await _gameRepository.GetGameById(gameId);
             if (game != null)
             {
                 if(game.P2 == string.Empty)
                 {
-                    // temporarly set the p2name to be "P2"
-                    await _gameRepository.UpdateGameP2(gameId, "P2");
+                    await _gameRepository.UpdateGameP2(gameId, p2Name);
+                    // Update game variable
+                    game = await _gameRepository.GetGameById(gameId);
 
                     await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-                    await Clients.Caller.SendAsync("YouJoined");
-                    await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("TableJoined");
+                    await Clients.Caller.SendAsync("YouJoined", game.P1, game.P2);
+                    await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("TableJoined", game.P1, game.P2);
                 }
             }
         }

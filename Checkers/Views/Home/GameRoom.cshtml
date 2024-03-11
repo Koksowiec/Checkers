@@ -38,9 +38,13 @@
     Checker activeChecker = null;
 }
 <div id="signalRMethod" data-method="@Model.Method"></div>
-<div id="signalRGameId" data-gameId="@Model.GameId"></div>
-<div>
-    P1:
+<div id="signalRP2Name" data-p2Name="@Model.P2Name"></div>
+<div id="signalRGameId" data-gameId="@Model.GameId">Room Id: @Model.GameId</div>
+<div id="p1Name">
+    P1: @Model.P1Name
+</div>
+<div id="p2Name">
+    P2: @Model.P2Name
 </div>
 
 @for (int i = 0; i < 8; i++)

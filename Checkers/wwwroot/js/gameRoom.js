@@ -121,7 +121,7 @@ function UpdateDirectionWhenOnBoardEnd(player) {
     }
 }
 
-function CanJumpOver(possibleCell) {
+function CanJumpOver(possibleCell, isSecondTime = false) {
     let possibleCellRow = parseInt(possibleCell.attr("data-row"));
     let possibleCellColumn = parseInt(possibleCell.attr("data-column"));
 
@@ -132,16 +132,18 @@ function CanJumpOver(possibleCell) {
         // Check if can Jump over
         // Check if the checker in the cell is on enemy team, if so then proceed
         let possibleCellChecker = possibleCell.children().eq(0);
-       
+
+        if (isSecondTime) {
+            return;
+        }
+
         if (possibleCellChecker.attr("data-player") != checkerPlayer) {
             let columnDifference = parseInt(possibleCell.attr("data-column")) - parseInt(checkerColumn);
             let rowDifference = parseInt(possibleCell.attr("data-row")) - parseInt(checkerRow);
 
             possibleCell = $('div.cell[data-row="' + (possibleCellRow + rowDifference) + '"][data-column="' + (possibleCellColumn + columnDifference) + '"]');
             
-            CanJumpOver(possibleCell);
-
-            canJumpOver = true;
+            CanJumpOver(possibleCell, true);
         }
     }
 }
@@ -159,5 +161,9 @@ function UpdateTable(newMove) {
     let nextCell = $('div.cell[data-row="' + nextMove[1] + '"][data-column="' + nextMove[0] + '"]');
 
     let checkerToMove = previousCell.children(".checker");
+
+    console.log("Previous: " + (parseInt(previousMove[1]) + 1) + " " + (parseInt(previousMove[0]) + 1));
+    console.log("Next: " + (parseInt(nextMove[1]) + 1) + " " + (parseInt(nextMove[0]) + 1));
+
     checkerToMove.appendTo(nextCell);
 }
