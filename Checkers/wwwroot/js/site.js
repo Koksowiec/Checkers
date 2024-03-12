@@ -23,20 +23,20 @@ $(document).ready(function () {
         //JoinGameOnClick();
         SendCheckerMove();
 
-        connection.on("TableJoined", function () {
-            TableJoined();
+        connection.on("TableJoined", function (p1Name, p2Name) {
+            TableJoined(p1Name, p2Name);
         });
 
-        connection.on("YouJoined", function () {
-            YouJoined();
+        connection.on("YouJoined", function (p1Name, p2Name) {
+            YouJoined(p1Name, p2Name);
         });
 
         connection.on("GameCreated", function () {
             GameCreated();
         });
 
-        connection.on("EnemyMoved", function (newMove) {
-            EnemyMoved(newMove);
+        connection.on("EnemyMoved", function (newMove, checkerToDelete) {
+            EnemyMoved(newMove, checkerToDelete);
         });
 
         connection.on("YouMoved", function () {
@@ -56,10 +56,18 @@ $(document).ready(function () {
     */
 });
 
-function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer) {
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer) {
     // Check if at least one of the parameters is not undefined, then proceed
     if (previousCheckerColumn != undefined) {
-        connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer).catch(function (err) {
+
+        if (checkerToDeleteRow == undefined) {
+            checkerToDeleteRow = 0;
+        }
+        if (checkerToDeleteColumn == undefined) {
+            checkerToDeleteColumn = 0;
+        }
+
+        connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -68,8 +76,11 @@ function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerR
 function HandleRequest() {
     let method = $("#signalRMethod").attr("data-method");
     let gameId = $("#signalRGameId").attr("data-gameId");
+    let p2Name = $("#signalRP2Name").attr("data-p2Name");
+    p2Name = p2Name == undefined ? "" : p2Name;
+
     if (method == "join") {
-        connection.invoke("JoinGame", gameId.toString()).catch(function (err) {
+        connection.invoke("JoinGame", gameId.toString(), p2Name).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -80,12 +91,18 @@ function HandleRequest() {
     }
 }
 
-function TableJoined() {
+function TableJoined(p1Name, p2Name) {
+    $("#p1Name").html("P1: " + p1Name);
+    $("#p2Name").html("P2: " + p2Name);
+
     console.log("Someone joined in on the game!");
     CAN_PLAYER_MOVE = true;
 }
 
-function YouJoined() {
+function YouJoined(p1Name, p2Name) {
+    $("#p1Name").html("P1: " + p1Name);
+    $("#p2Name").html("P2: " + p2Name);
+
     console.log("You joined in on the game!");
     CAN_PLAYER_MOVE = false;
 
@@ -99,8 +116,8 @@ function GameCreated() {
     CURRENT_PLAYER = "P1";
 }
 
-function EnemyMoved(newMove) {
-    UpdateTable(newMove);
+function EnemyMoved(newMove, checkerToDelete) {
+    UpdateTable(newMove, checkerToDelete);
 
     console.log("Enemy moved, now your turn");
     CAN_PLAYER_MOVE = true;

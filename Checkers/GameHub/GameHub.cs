@@ -28,25 +28,30 @@ namespace Checkers.GameHub
             await Clients.Caller.SendAsync("GameCreated");
         }
 
-        public async Task JoinGame(string gameId)
+        public async Task JoinGame(string gameId, string p2Name)
         {
             var game = await _gameRepository.GetGameById(gameId);
             if (game != null)
             {
                 if(game.P2 == string.Empty)
                 {
-                    // temporarly set the p2name to be "P2"
-                    await _gameRepository.UpdateGameP2(gameId, "P2");
+                    await _gameRepository.UpdateGameP2(gameId, p2Name);
+                    // Update game variable
+                    game = await _gameRepository.GetGameById(gameId);
 
                     await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-                    await Clients.Caller.SendAsync("YouJoined");
-                    await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("TableJoined");
+                    await Clients.Caller.SendAsync("YouJoined", game.P1, game.P2);
+                    await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("TableJoined", game.P1, game.P2);
                 }
             }
         }
 
         // Method to handle making a move
-        public async Task MakeMove(int previousCheckerRow, int previousCheckerColumn, int nextCheckerRow, int nextCheckerColumn, string gameId, string currentPlayer)
+        public async Task MakeMove(
+            int previousCheckerRow, int previousCheckerColumn, 
+            int nextCheckerRow, int nextCheckerColumn, 
+            int checkerToDeleteRow, int checkerToDeleteColumn,
+            string gameId, string currentPlayer)
         {
             var game = await _gameRepository.GetGameById(gameId);
             if(game != null)
@@ -68,8 +73,10 @@ namespace Checkers.GameHub
                     await _movesRepository.UpdateP2Moves(gameId, newMove);
                 }
 
+                var checkerToDelete = checkerToDeleteColumn + "_" + checkerToDeleteRow;
+
                 await Clients.Caller.SendAsync("YouMoved");
-                await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("EnemyMoved", newMove);
+                await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("EnemyMoved", newMove, checkerToDelete);
             }
         }
     }

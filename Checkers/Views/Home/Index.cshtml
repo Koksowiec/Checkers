@@ -5,31 +5,26 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="container">
+<div>
     <video autoplay muted loop id="myVideo">
         <source src="/assets/videos/background.mp4" type="video/mp4">
     </video>
-
-    <div id="roomsList">
-        <h3>Available Games:</h3>
-        @if (Model != null)
+    <h5>Available Games</h5>
+    @if (Model != null)
+    {
+        @foreach (var game in Model)
         {
-            @foreach (var game in Model)
+            if(game.P2 == string.Empty)
             {
-                if (game.P2 == string.Empty)
-                {
-                    <div class="room">
-                        @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
-                        {
-                            <input type="hidden" value="@game.Id" name="gameId" />
-                            <span>@game.Id</span>
-                            <button type="submit" data-gameId="@game.Id">Join Game</button>
-                        }
-                    </div>
-                }
+                <div>
+                    <span>@game.Id</span>
+                    <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
+                </div>
             }
         }
-    </div>
+    }
+    
+</div>
 
     <div id="title">W A R C A B Y</div>
     <div id="glass">
