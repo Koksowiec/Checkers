@@ -161,3 +161,5 @@ function UpdateTable(newMove) {
     let checkerToMove = previousCell.children(".checker");
     checkerToMove.appendTo(nextCell);
 }
+
+document.getElementById("myVideo").defaultPlaybackRate = 0.75;

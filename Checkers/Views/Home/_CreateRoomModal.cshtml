@@ -5,7 +5,7 @@
 </button>
 
 <!-- Modal -->
-<div class="modal" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModal" aria-hidden="true">
+<div class="modal" id="createRoomModal" class="modal" tabindex="-1" aria-labelledby="createRoomModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @using (Html.BeginForm("CreateGame", "Home", FormMethod.Post))
@@ -17,7 +17,7 @@
                 </div>
                 <div class="modal-body">
                     <h5>Please enter a player name</h5>
-                    <input type="text" id="p1Name" name="p1Name" placeholder="Player Name" />
+                    <input type="text" id="p1Name" class="nameInput" name="p1Name" placeholder="Player Name" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
