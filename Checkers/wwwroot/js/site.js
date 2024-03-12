@@ -35,8 +35,8 @@ $(document).ready(function () {
             GameCreated();
         });
 
-        connection.on("EnemyMoved", function (newMove) {
-            EnemyMoved(newMove);
+        connection.on("EnemyMoved", function (newMove, checkerToDelete) {
+            EnemyMoved(newMove, checkerToDelete);
         });
 
         connection.on("YouMoved", function () {
@@ -56,10 +56,18 @@ $(document).ready(function () {
     */
 });
 
-function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer) {
+function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer) {
     // Check if at least one of the parameters is not undefined, then proceed
     if (previousCheckerColumn != undefined) {
-        connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, roomNumber, currentPlayer).catch(function (err) {
+
+        if (checkerToDeleteRow == undefined) {
+            checkerToDeleteRow = 0;
+        }
+        if (checkerToDeleteColumn == undefined) {
+            checkerToDeleteColumn = 0;
+        }
+
+        connection.invoke("MakeMove", previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -108,8 +116,8 @@ function GameCreated() {
     CURRENT_PLAYER = "P1";
 }
 
-function EnemyMoved(newMove) {
-    UpdateTable(newMove);
+function EnemyMoved(newMove, checkerToDelete) {
+    UpdateTable(newMove, checkerToDelete);
 
     console.log("Enemy moved, now your turn");
     CAN_PLAYER_MOVE = true;

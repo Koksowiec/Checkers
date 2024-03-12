@@ -8,6 +8,7 @@ let possibleRows = [];
 let possibleColumns = [];
 
 let CAN_JUMP_OVER = false;
+let CHECKER_TO_DELETE = null;
 
 // Take into consideration the global variables created in site.js
 
@@ -45,10 +46,24 @@ function CellOnClick() {
             let nextCheckerRow = parseInt($(this).attr("data-row"));
             let nextCheckerColumn = parseInt($(this).attr("data-column"));
 
-            checker.appendTo($(this));
-
             checker.attr("data-row", $(this).attr("data-row"));
             checker.attr("data-column", $(this).attr("data-column"));
+
+            let checkerToDeleteRow;
+            let checkerToDeleteColumn;
+            if (Math.abs(nextCheckerRow - previousCheckerRow) == 2) {
+                let jumpedColumn = (nextCheckerColumn + previousCheckerColumn) / 2;
+                let jumpedRow = (nextCheckerRow + previousCheckerRow) / 2;
+
+                CHECKER_TO_DELETE = $('div.cell[data-row="' + jumpedRow + '"][data-column="' + jumpedColumn + '"]').children(".checker");
+
+                checkerToDeleteRow = parseInt(CHECKER_TO_DELETE.attr("data-row"));
+                checkerToDeleteColumn = parseInt(CHECKER_TO_DELETE.attr("data-column"));
+
+                CHECKER_TO_DELETE.remove();
+            }
+
+            checker.appendTo($(this));
 
             clearAllCellsActiveClasses();
             clearAllCheckersActiveClassess();
@@ -62,7 +77,7 @@ function CellOnClick() {
             }
 
             gameId = $("#signalRGameId").attr("data-gameId");
-            SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, gameId, CURRENT_PLAYER);
+            SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, gameId, CURRENT_PLAYER);
         }
     });
 }
@@ -126,12 +141,17 @@ function CanJumpOver(possibleCell, isSecondTime = false) {
     let possibleCellColumn = parseInt(possibleCell.attr("data-column"));
 
     if (possibleCell.find(".checker").length == 0) {
+        if (isSecondTime == true) {
+            CAN_JUMP_OVER = true;
+        }
+
         possibleCell.addClass("active")
+        return;
     }
     else {
         // Check if can Jump over
         // Check if the checker in the cell is on enemy team, if so then proceed
-        let possibleCellChecker = possibleCell.children().eq(0);
+        let possibleCellChecker = possibleCell.children(".checker");
 
         if (isSecondTime) {
             return;
@@ -148,7 +168,9 @@ function CanJumpOver(possibleCell, isSecondTime = false) {
     }
 }
 
-function UpdateTable(newMove) {
+// Example Move: 1_5-3_7
+// Example Checker to delete: 2_6 (if there is no checker to delete then 0_0)
+function UpdateTable(newMove, checkerToDeletePos) {
     let move = newMove.toString();
     let movesArray = move.split(";");
     let lastMove = movesArray[movesArray.length - 1];
@@ -162,8 +184,18 @@ function UpdateTable(newMove) {
 
     let checkerToMove = previousCell.children(".checker");
 
-    console.log("Previous: " + (parseInt(previousMove[1]) + 1) + " " + (parseInt(previousMove[0]) + 1));
-    console.log("Next: " + (parseInt(nextMove[1]) + 1) + " " + (parseInt(nextMove[0]) + 1));
+    console.log("Previous: " + (parseInt(previousMove[1]) + 1) + " " + (parseInt(previousMove[0]) + 1) + "| Next: " + (parseInt(nextMove[1]) + 1) + " " + (parseInt(nextMove[0]) + 1));
 
+    checkerToMove.attr("data-row", nextCell.attr("data-row"));
+    checkerToMove.attr("data-column", nextCell.attr("data-column"));
     checkerToMove.appendTo(nextCell);
+
+    // Delete jumped over checker
+    let checkerToDeletePosition = checkerToDeletePos.split("_");
+    if (checkerToDeletePosition[1] != 0 && checkerToDeletePosition[0] != 0) {
+        let checkerToDeleteCell = $('div.cell[data-row="' + checkerToDeletePosition[1] + '"][data-column="' + checkerToDeletePosition[0] + '"]');
+        let checkerToDelete = checkerToDeleteCell.children(".checker");
+        console.log("To delete: " + checkerToDelete.attr("data-column") + " " + checkerToDelete.attr("data-row"))
+        checkerToDelete.remove();
+    }
 }

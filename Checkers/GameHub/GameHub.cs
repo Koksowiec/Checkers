@@ -47,7 +47,11 @@ namespace Checkers.GameHub
         }
 
         // Method to handle making a move
-        public async Task MakeMove(int previousCheckerRow, int previousCheckerColumn, int nextCheckerRow, int nextCheckerColumn, string gameId, string currentPlayer)
+        public async Task MakeMove(
+            int previousCheckerRow, int previousCheckerColumn, 
+            int nextCheckerRow, int nextCheckerColumn, 
+            int checkerToDeleteRow, int checkerToDeleteColumn,
+            string gameId, string currentPlayer)
         {
             var game = await _gameRepository.GetGameById(gameId);
             if(game != null)
@@ -69,8 +73,10 @@ namespace Checkers.GameHub
                     await _movesRepository.UpdateP2Moves(gameId, newMove);
                 }
 
+                var checkerToDelete = checkerToDeleteColumn + "_" + checkerToDeleteRow;
+
                 await Clients.Caller.SendAsync("YouMoved");
-                await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("EnemyMoved", newMove);
+                await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("EnemyMoved", newMove, checkerToDelete);
             }
         }
     }
