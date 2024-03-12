@@ -108,12 +108,14 @@ function YouJoined(p1Name, p2Name) {
 
     if (CURRENT_PLAYER == null) {
         CURRENT_PLAYER = "P2"
+        $("#p2Name").addClass("active-player")
     }
 }
 
 function GameCreated() {
     console.log("You have successfully created a game");
     CURRENT_PLAYER = "P1";
+    $("#p1Name").addClass("active-player")
 }
 
 function EnemyMoved(newMove, checkerToDelete) {

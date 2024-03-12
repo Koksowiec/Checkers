@@ -1,6 +1,6 @@
 ﻿@model string
 <!-- Button trigger modal -->
-<button type="button" id="createNew" onclick="createNewRoom()" data-bs-toggle="modal" data-bs-target="#createRoomModal">
+<button type="button" id="createNew" class="create-new-btn" onclick="createNewRoom()" data-bs-toggle="modal" data-bs-target="#createRoomModal">
     Create new room +
 </button>
 
@@ -15,9 +15,9 @@
                     <h5 class="modal-title" id="createRoomModalLabel">Create a room</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body modal-custom-body">
                     <h5>Please enter a player name</h5>
-                    <input type="text" id="p1Name" name="p1Name" placeholder="Player Name" />
+                    <input type="text" id="p1Name" name="p1Name" placeholder="Player Name" class="custom-input" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

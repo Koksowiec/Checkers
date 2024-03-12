@@ -1,0 +1,110 @@
+﻿.main-content {
+    height: 80vh;
+}
+
+.rooms-list {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    background: rgba(55, 208, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(5.2px);
+    font-size: 2rem;
+    overflow-y: auto; /* Zapewnia, że przewijanie jest włączone tylko wtedy, gdy jest potrzebne */
+    scrollbar-color: transparent transparent; /* Kolor paska i tła (dla przeglądarek wspierających) */
+    text-align: center;
+}
+
+.rooms-list::-webkit-scrollbar-track {
+    background: transparent; /* Kolor tła paska przewijania */
+}
+
+.title {
+    font-size: 7vw;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: -80px;
+    z-index: 1;
+    text-shadow: 0px 0px 3px black;
+}
+
+.main-menu {
+    display:flex;
+    flex-direction:column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    width: 55%;
+    height: 55%;
+    background: rgba(55, 208, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5.2px);
+    -webkit-backdrop-filter: blur(5.2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.input-title{
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-top: -10px;
+    text-shadow: 0px 0px 6px black;
+}
+
+.submit-btn {
+    margin-top:15px;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 5px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    border-radius: 10px;
+    background-color: rgba(131, 230, 255, 0.75);
+    border: solid rgba(135, 235, 255, 0.75);
+    text-shadow: 0 0 6px white;
+    transition: linear 0.1s;
+}
+
+.highscore {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    background: rgba(55, 208, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(5.2px);
+    font-size: 2rem;
+    overflow-y: auto; /* Zapewnia, że przewijanie jest włączone tylko wtedy, gdy jest potrzebne */
+    scrollbar-color: transparent transparent; /* Kolor paska i tła (dla przeglądarek wspierających) */
+    text-align: center;
+}
+
+.create-new-btn {
+    width: 30%;
+    height: 15%;
+    border-radius: 10px;
+    position: relative;
+    top: -10%;
+    left: 20%;
+    transform: rotate(-10deg);
+    font-size: 1.25rem;
+    padding: 5px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    border-radius: 10px;
+    background-color: rgba(131, 230, 255, 0.75);
+    border: solid rgba(135, 235, 255, 0.75);
+    text-shadow: 0 0 6px white;
+    transition: linear 0.1s
+}

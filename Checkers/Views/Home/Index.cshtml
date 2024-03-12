@@ -5,37 +5,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="container">
-    <video autoplay muted loop id="myVideo">
-        <source src="/assets/videos/background.mp4" type="video/mp4">
-    </video>
-    <div id="roomsList">
-        <h5>Available Games</h5>
-        @if (Model != null)
-        {
-            @foreach (var game in Model)
+<video autoplay muted loop id="myVideo">
+    <source src="/assets/videos/background.mp4" type="video/mp4">
+</video>
+
+<div>
+    <div class="row main-content">
+        <div class="col-md-2 rooms-list">
+            <h3>Available Games</h3>
+            @if (Model != null)
             {
-                if(game.P2 == string.Empty)
+                @foreach (var game in Model)
                 {
-                    <div>
-                        <span>@game.Id</span>
-                        <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
-                    </div>
+                    if (game.P2 == string.Empty)
+                    {
+                        <div>
+                            <span>@game.Id</span>
+                            <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
+                        </div>
+                    }
                 }
             }
-        }   
-    </div>
-
-    <div id="title">W A R C A B Y</div>
-    <div id="glass">
-        <button type="button" id="goTo" onclick="goTo()">Go to room</button>
-        <p id="roomNumber">Wpisz numer pokoju:</p>
-        <input id='roomInput' type="number">
-    </div>
-
-    <partial name="_CreateRoomModal" model="string.Empty"></partial>
-
-    <div id="highscore">
-        <h2><b>Highscores:</b></h2>
+        </div>
+        <div class="col-md-8 main-menu">
+            <div class="title">C H E C K E R S</div>
+            <div class="glass">
+                @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
+                {
+                    <p class="input-title">Enter your name</p>
+                    <input class="custom-input" name="p2Name" type="text">
+                    <p class="input-title">Enter room number</p>
+                    <input class="custom-input" name="gameId" type="number">
+                    <button type="submit" class="submit-btn">Go to room</button>
+                }
+            </div>
+            <partial name="_CreateRoomModal" model="string.Empty"></partial>
+        </div>
+        <div class="col-md-2 highscore">
+            <h3>Highscores</h3>
+        </div>
     </div>
 </div>

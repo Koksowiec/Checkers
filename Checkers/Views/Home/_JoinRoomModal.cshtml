@@ -1,6 +1,6 @@
 ﻿@model string
 <!-- Button trigger modal -->
-<button type="button" data-bs-toggle="modal" data-bs-target="#joinRoomModal">
+<button type="button" class="submit-btn" data-bs-toggle="modal" data-bs-target="#joinRoomModal">
     Join Game
 </button>
 
@@ -12,12 +12,12 @@
             {
                 <input type="hidden" value="@Model" name="gameId" />
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createRoomModalLabel">Join a room</h5>
+                    <h5 class="modal-title" id="createRoomModalLabel">Join room @Model</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body modal-custom-body">
                     <h5>Please enter a player name</h5>
-                    <input type="text" id="p2Name" name="p2Name" placeholder="Player Name" />
+                    <input type="text" id="p2Name" name="p2Name" placeholder="Player Name" class="custom-input" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
