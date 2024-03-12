@@ -1,52 +1,33 @@
-﻿.cell{
-    height: 80px;
-    width: 80px;
-    padding: 10px;
-    border: 1px solid black;
-}
-
-.row:nth-child(2n) .cell:nth-child(2n+1)
-{
-    background:tan;
-}
-
-.row:nth-child(2n) .cell:nth-child(2n) {
-    background: #eee;
-}
-
-.row:nth-child(2n+1) .cell:nth-child(2n+1) {
-    background: #eee;
-}
-
-.row:nth-child(2n+1) .cell:nth-child(2n) {
-    background: tan;
-}
-
-.cell.active {
-    border: 3px solid blue;
-}
-
-.checker{
-    width:60px;
-    height:60px;
+﻿.checker {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 1px solid black;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5.2px);
+    -webkit-backdrop-filter: blur(5.2px);
 }
 
-.checker.black{
-    background: #000;
+.checker.black {
+    background: rgba(0, 0, 255, 0.55);
 }
 
 .checker.white {
-    background: #fff;
+    background: rgba(100, 255, 255, 0.55);
 }
 
-.checker.active{
+.checker.active {
     border: 3px solid blue;
 }
 
-.king{
-    margin-left:9px;
-    font-weight:bold;
-    color:yellow;
+.king {
+    margin-left: 9px;
+    font-weight: bold;
+    color: yellow;
 }
+
+/* zwolnic animacje*/

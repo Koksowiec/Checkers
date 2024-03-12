@@ -26,11 +26,6 @@ namespace Checkers.Controllers
             return View(gamesList);
         }
 
-        public async Task<IActionResult> GameRoom()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateGame(string gameId, string p1Name)
         {
@@ -39,29 +34,24 @@ namespace Checkers.Controllers
             var request = new RequestViewModel()
             {
                 GameId = gameId,
-                Method = RequestMethods.create
+                Method = RequestMethods.create,
+                P1Name = p1Name
             };
 
             return View("GameRoom", request);
         }
 
         [HttpPost]
-        public IActionResult JoinGame(string gameId)
+        public IActionResult JoinGame(string gameId, string p2Name)
         {
             var request = new RequestViewModel()
             {
                 GameId = gameId,
-                Method = RequestMethods.join
+                Method = RequestMethods.join,
+                P2Name = p2Name
             };
 
             return View("GameRoom", request);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetRooms(string playerName)
-        {
-            var games = await _gameRepository.GetAllAsync();
-            return View("Index", games.ToList());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

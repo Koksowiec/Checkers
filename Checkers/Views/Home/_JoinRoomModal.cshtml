@@ -1,0 +1,29 @@
+﻿@model string
+<!-- Button trigger modal -->
+<button type="button" class="submit-btn" data-bs-toggle="modal" data-bs-target="#joinRoomModal">
+    Join Game
+</button>
+
+<!-- Modal -->
+<div class="modal" id="joinRoomModal" tabindex="-1" aria-labelledby="joinRoomModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
+            {
+                <input type="hidden" value="@Model" name="gameId" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createRoomModalLabel">Join room @Model</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-custom-body">
+                    <h5>Please enter a player name</h5>
+                    <input type="text" id="p2Name" name="p2Name" placeholder="Player Name" class="custom-input" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Join Game</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

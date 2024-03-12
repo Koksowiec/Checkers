@@ -1,4 +1,9 @@
-﻿.modal-content {
+﻿.modal-custom-body{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+.modal-content {
     width: auto;
     height: 35vh;
     background-color: rgba(125, 215, 255, 0.85);
