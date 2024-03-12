@@ -5,26 +5,26 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div>
+<div id="container">
     <video autoplay muted loop id="myVideo">
         <source src="/assets/videos/background.mp4" type="video/mp4">
     </video>
-    <h5>Available Games</h5>
-    @if (Model != null)
-    {
-        @foreach (var game in Model)
+    <div id="roomsList">
+        <h5>Available Games</h5>
+        @if (Model != null)
         {
-            if(game.P2 == string.Empty)
+            @foreach (var game in Model)
             {
-                <div>
-                    <span>@game.Id</span>
-                    <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
-                </div>
+                if(game.P2 == string.Empty)
+                {
+                    <div>
+                        <span>@game.Id</span>
+                        <partial name="_JoinRoomModal" model="@game.Id.ToString()"></partial>
+                    </div>
+                }
             }
-        }
-    }
-    
-</div>
+        }   
+    </div>
 
     <div id="title">W A R C A B Y</div>
     <div id="glass">

@@ -39,44 +39,44 @@
 }
 
 <div id="container">
-<video autoplay muted loop id="myVideo">
-    <source src="/assets/videos/background.mp4" type="video/mp4">
-</video>
-<div class="GamePlace">
-<div id="signalRMethod" data-method="@Model.Method"></div>
-<div id="signalRP2Name" data-p2Name="@Model.P2Name"></div>
-<div id="signalRGameId" data-gameId="@Model.GameId">Room Id: @Model.GameId</div>
-<div id="p1Name">
-    P1: @Model.P1Name
-</div>
-<div id="p2Name">
-    P2: @Model.P2Name
-</div>
-
-@for (int i = 0; i < 8; i++)
-{
-    <div class="row">
-        @for(int j = 0; j < 8; j++)
-        {
-            var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-            if(checker == null)
-            {
-                checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-            }
-            <div class="cell" data-row="@i" data-column="@j">
-                @if(checker != null)
-                {
-                    <div 
-                        class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
-                        data-row="@checker.Row"
-                        data-column="@checker.Column"
-                        data-direction="@checker.Direction"
-                        data-player="@checker.Player"></div>
-                }
-            </div>
-        }
+    <video autoplay muted loop id="myVideo">
+        <source src="/assets/videos/background.mp4" type="video/mp4">
+    </video>
+    <div class="GamePlace">
+    <div id="signalRMethod" data-method="@Model.Method"></div>
+    <div id="signalRP2Name" data-p2Name="@Model.P2Name"></div>
+    <div id="signalRGameId" data-gameId="@Model.GameId">Room Id: @Model.GameId</div>
+    <div id="p1Name">
+        P1: @Model.P1Name
     </div>
-}
+    <div id="p2Name">
+        P2: @Model.P2Name
+    </div>
+
+    @for (int i = 0; i < 8; i++)
+    {
+        <div class="row">
+            @for(int j = 0; j < 8; j++)
+            {
+                var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                if(checker == null)
+                {
+                    checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                }
+                <div class="cell" data-row="@i" data-column="@j">
+                    @if(checker != null)
+                    {
+                        <div 
+                            class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
+                            data-row="@checker.Row"
+                            data-column="@checker.Column"
+                            data-direction="@checker.Direction"
+                            data-player="@checker.Player"></div>
+                    }
+                </div>
+            }
+        </div>
+    }
 
     </div>
 </div>
