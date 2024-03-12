@@ -6,6 +6,9 @@
 }
 
 <div>
+    <video autoplay muted loop id="myVideo">
+        <source src="/assets/videos/background.mp4" type="video/mp4">
+    </video>
     <h5>Available Games</h5>
     @if (Model != null)
     {
@@ -23,11 +26,6 @@
     
 </div>
 
-<div id="container">
-    <video autoplay muted loop id="myVideo">
-        <source src="/assets/videos/background.mp4" type="video/mp4">
-    </video>
-
     <div id="title">W A R C A B Y</div>
     <div id="glass">
         <button type="button" id="goTo" onclick="goTo()">Go to room</button>
@@ -38,5 +36,6 @@
     <partial name="_CreateRoomModal" model="string.Empty"></partial>
 
     <div id="highscore">
+        <h2><b>Highscores:</b></h2>
     </div>
 </div>
