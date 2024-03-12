@@ -38,45 +38,63 @@
     Checker activeChecker = null;
 }
 
-<div id="container">
-    <video autoplay muted loop id="myVideo">
-        <source src="/assets/videos/background.mp4" type="video/mp4">
-    </video>
-    <div class="GamePlace">
-    <div id="signalRMethod" data-method="@Model.Method"></div>
-    <div id="signalRP2Name" data-p2Name="@Model.P2Name"></div>
-    <div id="signalRGameId" data-gameId="@Model.GameId">Room Id: @Model.GameId</div>
-    <div id="p1Name">
-        P1: @Model.P1Name
-    </div>
-    <div id="p2Name">
-        P2: @Model.P2Name
-    </div>
+<video autoplay muted loop id="myVideo">
+    <source src="/assets/videos/background.mp4" type="video/mp4">
+</video>
 
-    @for (int i = 0; i < 8; i++)
-    {
-        <div class="row">
-            @for(int j = 0; j < 8; j++)
-            {
-                var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-                if(checker == null)
-                {
-                    checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-                }
-                <div class="cell" data-row="@i" data-column="@j">
-                    @if(checker != null)
-                    {
-                        <div 
-                            class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
-                            data-row="@checker.Row"
-                            data-column="@checker.Column"
-                            data-direction="@checker.Direction"
-                            data-player="@checker.Player"></div>
-                    }
+<div>
+    <div class="row">
+        <div class="col-md-9">
+            <div id="signalRMethod" data-method="@Model.Method" class="hidden"></div>
+            <div id="signalRP2Name" data-p2Name="@Model.P2Name" class="hidden"></div>
+            <div id="signalRGameId" data-gameId="@Model.GameId" class="hidden"></div>
+
+            <div class="row">
+                <div id="p1Name" class="col-md-4">
+                    P1: @Model.P1Name
                 </div>
-            }
-        </div>
-    }
+                <div id="p2Name" class="col-md-4">
+                    P2: @Model.P2Name
+                </div>
+            </div>
 
+            <div class="checker-board">
+                @for (int i = 0; i < 8; i++)
+                {
+                    <div class="row checker-board-row">
+                        @for (int j = 0; j < 8; j++)
+                        {
+                            var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                            if (checker == null)
+                            {
+                                checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                            }
+                            <div class="cell" data-row="@i" data-column="@j">
+                                @if (checker != null)
+                                {
+                                    <div class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
+                                         data-row="@checker.Row"
+                                         data-column="@checker.Column"
+                                         data-direction="@checker.Direction"
+                                         data-player="@checker.Player"></div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h2>Chat for room @Model.GameId</h2>
+            <div class="chat">
+                <span>Example message 1</span><br />
+                <span>Example message 2</span><br />
+                <span>Example message 3</span><br />
+            </div>
+            <div>
+                <input type="text" placeholder="Enter message" />
+                <button>Send</button>
+            </div>
+        </div>
     </div>
 </div>
