@@ -26,3 +26,5 @@ Standardowa komunikacja w ASP.NET MVC. Po wejściu na stronę kontroler zwraca w
 ## Frontend
 Do frontendu wykorzystujemy stworzone przez ASP.NET widoki. Widoki pozwalają nam na używanie HTML, CSS, JQuery, AJAX oraz samego C# w widokach. Stosujemy zasadę "unobstrusive javascript", nie używamy onclick tylko wykorzystujemy id elementów html aby wykonywać na nich akcje w odpowiednich plikach .js. Mamy zainstalowaną paczkę JQuery SignalR, pozwalającą nam na komunikację z backendem. Nie używamy żadnego frameworka ponieważ było by to tak zwanym "overkill". W aplikacji tej wielkości wystarcza nam w zupełności to do czego już mamy dostęp.
 ### TODO - szczegółowy opis fucnkji JQuery oraz SignalR
+## Struktura bazy danych
+### TODO - szczególowy opis tabel, modeli itp. po ostatecznej wersji
