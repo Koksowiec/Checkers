@@ -27,3 +27,8 @@
         transform: translateY(-175%);
     }
 }
+
+.create-new-btn:hover {
+    font-size: 150%;
+    transform: rotate(-5deg);
+}

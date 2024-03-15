@@ -4,12 +4,13 @@
 }
 
 .checker-board {
-    min-width: 760px;
+    min-width: 720px;
+    width:auto;
 }
 
 .cell {
-    height: 95px;
-    width: 95px;
+    height: 5vw;
+    width: 5vw;
     padding: 1%;
     border: 1px solid black;
     position: relative;
@@ -21,6 +22,7 @@
 
 .row {
     margin-left: 1px;
+    text-align:center;
 }
 
 .checker-board-row:nth-child(2n) .cell:nth-child(2n+1),
@@ -31,4 +33,90 @@
 .checker-board-row:nth-child(2n) .cell:nth-child(2n),
 .checker-board-row:nth-child(2n+1) .cell:nth-child(2n+1) {
     background: rgba(131, 230, 255, 0.55);
+}
+
+.col-md-9 {
+    width: 51%;
+    padding-left: 10%;
+}
+
+.col-md-3 {
+    border-left: solid blue 2px;
+    border-right: solid blue 2px;
+    box-shadow: inset 0px 0px 15px blue !important;
+    border-radius: 5px;
+    text-align: center;
+    background: rgba(55, 208, 255, 0.55);
+    -webkit-backdrop-filter: blur(5.2px);
+}
+
+.chat span {
+    font-size: 1.75rem;
+    text-shadow: 0 0 6px white;
+
+}
+
+.col-md-3 Input {
+    width: 75%;
+    height: 1.75rem;
+    font-size: 1.55rem;
+    margin-top:5%;
+    top:30%;
+    right: 10px;
+    height:2rem;
+}
+
+.col-md-3 button {
+    width: 15%;
+    height: 1.75rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    padding-left: 5px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    border-radius: 25px;
+    background-color: rgba(131, 230, 255, 0.75);
+    border: solid rgba(135, 235, 255, 0.75) 1px;
+    text-shadow: 0 0 6px white;
+    transition: linear 0.1s;
+}
+
+.col-md-4 {
+    width: 50%;
+    font-size: 1.55rem;
+    box-shadow: inset 0px 0px 15px blue;
+}
+
+
+@keyframes pulse {
+    0% {
+        border-color: blue;
+        -webkit-box-shadow: inset 0px 0px 15px blue;
+        -moz-box-shadow: inset 0px 0px  15px blue;
+        box-shadow: inset 0px 0px  15px blue;
+        background: rgba(135, 235, 255, 0.75);
+    }
+
+    50% {
+        border-color: rgba(135, 235, 255, 0.75);
+        -webkit-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        -moz-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        background:blue;
+        color:white;
+    }
+
+    100% {
+        border-color: blue;
+        -webkit-box-shadow: inset 0px 0px 15px blue;
+        -moz-box-shadow: inset 0px 0px 15px blue;
+        box-shadow: inset 0px 0px 15px blue;
+        background: rgba(135, 235, 255, 0.75);
+    }
+
+}
+
+.active-player {
+    animation: pulse 3s infinite;
 }
