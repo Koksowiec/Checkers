@@ -1,6 +1,6 @@
 ﻿.checker {
-    width: 60px;
-    height: 60px;
+    width: 3vw;
+    height: 3vw;
     border-radius: 50%;
     border: 1px solid black;
     position: relative;
@@ -12,13 +12,19 @@
     -webkit-backdrop-filter: blur(5.2px);
 }
 
-.checker.black {
-    background: rgba(0, 0, 255, 0.55);
-}
+    .checker.black {
+        background: rgba(0, 0, 255, 0.65);
+        -webkit-box-shadow: inset 0px 0px 10px rgba(135, 235, 255, 0.75);
+        -moz-box-shadow: inset 0px 0px 10px rgba(135, 235, 255, 0.75);
+        box-shadow: inset 0px 0px 10px rgba(135, 235, 255, 0.75);
+    }
 
-.checker.white {
-    background: rgba(100, 255, 255, 0.55);
-}
+    .checker.white {
+        background: rgba(100, 255, 255, 0.65);
+        -webkit-box-shadow: inset 0px 0px 10px rgba(0, 0, 255, 0.75);
+        -moz-box-shadow: inset 0px 0px 10px rgba(0, 0, 255, 0.75);
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 255, 0.75);
+    }
 
 .checker.active {
     border: 3px solid blue;

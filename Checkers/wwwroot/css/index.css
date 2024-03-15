@@ -1,5 +1,6 @@
 ﻿.main-content {
     height: 80vh;
+    box-sizing: border-box;
 }
 
 .rooms-list {
@@ -38,8 +39,8 @@
 }
 
 .glass {
-    width: 55%;
-    height: 55%;
+    width: 65%;
+    height: 65%;
     background: rgba(55, 208, 255, 0.43);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
@@ -50,26 +51,27 @@
     align-items: center;
     flex-direction: column;
     overflow: visible;
+    padding-top: 7.5%;
+    margin-top: 10px;
 }
 
-.input-title{
+.input-title {
     color: #fff;
     font-size: 1.5rem;
     margin-bottom: 20px;
-    margin-top: 40px;
-    margin-top: -10px;
+    margin-top: 10px;
     text-shadow: 0px 0px 6px black;
 }
 
 .submit-btn {
     margin-top:15px;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 1rem;
     padding: 5px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 800;
-    border-radius: 10px;
+    border-radius: 25px;
     background-color: rgba(131, 230, 255, 0.75);
     border: solid rgba(135, 235, 255, 0.75);
     text-shadow: 0 0 6px white;
@@ -107,4 +109,40 @@
     border: solid rgba(135, 235, 255, 0.75);
     text-shadow: 0 0 6px white;
     transition: linear 0.1s
+}
+
+
+.chat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 85%;
+    overflow: scroll;
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+}
+
+.p1 {
+    align-self: flex-start;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border-color: rgba(135, 235, 255, 0.75);
+    -webkit-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+    -moz-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+    box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+    background: blue;
+    color: white;
+}
+
+.p2 {
+    align-self: flex-end;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border-color: blue;
+    -webkit-box-shadow: inset 0px 0px 15px blue;
+    -moz-box-shadow: inset 0px 0px 15px blue;
+    box-shadow: inset 0px 0px 15px blue;
+    background: rgba(135, 235, 255, 0.75);
 }
