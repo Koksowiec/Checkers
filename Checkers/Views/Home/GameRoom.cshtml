@@ -37,12 +37,13 @@
 
     Checker activeChecker = null;
 }
-
 <video autoplay muted loop id="myVideo">
     <source src="/assets/videos/background.mp4" type="video/mp4">
 </video>
 
 <div>
+    <partial name="_VictoryModal"></partial>
+    <partial name="_DefeatModal"></partial>
     <div class="row">
         <div class="col-md-9">
             <div id="signalRMethod" data-method="@Model.Method" class="hidden"></div>
@@ -87,13 +88,10 @@
         <div class="col-md-3">
             <h2>Chat for room @Model.GameId</h2>
             <div id="chat" class="chat">
-                <span class="p1">Gl hf!</span><br />
-                <span class="p2">Niech wygra lepszy.</span><br />
-                <span class="p1">Czyli ja!</span><br />
             </div>
             <div>
-                <input type="text" placeholder="Enter message" />
-                <button>Send</button>
+                <input id="chatInput" type="text" placeholder="Enter message" />
+                <button id="chatBtn" type="button">Send</button>
             </div>
         </div>
     </div>

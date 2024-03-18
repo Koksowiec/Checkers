@@ -44,12 +44,36 @@ $(document).ready(function () {
         connection.on("ReciveMessage", function (message, messageType) {
             ReciveMessage(message, messageType);
         });
+
+        connection.on("PlayerLeft", function (player) {
+            PlayerLeft(player);
+        });
+
+        connection.on("HandleVictory", function () {
+            HandleVictory();
+        });
+
+        connection.on("HandleDefeat", function () {
+            HandleDefeat();
+        });
     });
 
 });
 
-function SendMessage(message, messageType) {
-    connection.invoke("SendMessage", message, messageType).catch(function (err) {
+function YouLost(roomNumber) {
+    connection.invoke("YouLost", roomNumber).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function YouWon(roomNumber) {
+    connection.invoke("YouWon", roomNumber).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function SendMessage(roomNumber, message, messageType) {
+    connection.invoke("SendMessage", roomNumber, message, messageType).catch(function (err) {
         return console.error(err.toString());
     });
 }
@@ -93,7 +117,7 @@ function TableJoined(p1Name, p2Name) {
     $("#p1Name").html("P1: " + p1Name);
     $("#p2Name").html("P2: " + p2Name);
 
-    console.log("Someone joined in on the game!");
+    ReciveMessage("Someone joined in on the game!", "system");
     CAN_PLAYER_MOVE = true;
 }
 
@@ -101,7 +125,7 @@ function YouJoined(p1Name, p2Name) {
     $("#p1Name").html("P1: " + p1Name);
     $("#p2Name").html("P2: " + p2Name);
 
-    console.log("You joined in on the game!");
+    ReciveMessage("You joined in on the game!", "system");
     CAN_PLAYER_MOVE = false;
 
     if (CURRENT_PLAYER == null) {
@@ -111,7 +135,7 @@ function YouJoined(p1Name, p2Name) {
 }
 
 function GameCreated() {
-    console.log("You have successfully created a game");
+    ReciveMessage("You have successfully created a game", "system");
     CURRENT_PLAYER = "P1";
     $("#p1Name").addClass("active-player")
 }
@@ -119,17 +143,37 @@ function GameCreated() {
 function EnemyMoved(newMove, checkerToDelete) {
     UpdateTable(newMove, checkerToDelete);
 
-    console.log("Enemy moved, now your turn");
+    ReciveMessage("Enemy moved, now your turn", "system");
+
     CAN_PLAYER_MOVE = true;
+
+    CheckWinConditions();
 }
 
 function YouMoved() {
-    console.log("You moved, now enemy turn");
+    ReciveMessage("You moved, now enemy turn", "system");
     CAN_PLAYER_MOVE = false;
+
+    CheckWinConditions();
 }
 
 function ReciveMessage(message, messageType) {
     $("#chat").append('<span class="' + messageType + '">' + message + '</span>');
+}
+
+function PlayerLeft(player) {
+    ReciveMessage(player + " left the game.", "system");
+    HandleVictory();
+}
+
+function HandleVictory() {
+    ReciveMessage("You won!", "system");
+    $("#victoryModal").show();
+}
+
+function HandleDefeat() {
+    ReciveMessage("You won!", "system");
+    $("#defeatModal").show();
 }
 
 // SignalR END
