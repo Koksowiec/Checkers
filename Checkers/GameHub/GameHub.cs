@@ -15,12 +15,12 @@ namespace Checkers.GameHub
             _movesRepository = moveRepository;
         }
 
-        /*
-        public async Task SendMessage(string user, string message)
+        
+        public async Task SendMessage(string message, string messageType)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.Caller.SendAsync("ReciveMessage", message, messageType);
         }
-        */
+        
 
         public async Task CreateGame(string gameId)
         {

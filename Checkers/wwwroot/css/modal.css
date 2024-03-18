@@ -1,14 +1,8 @@
-﻿
-
-.modal-custom-body {
+﻿.modal-custom-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.modal-dialog {
-    margin: 20vh auto 0px auto
 }
 
 .modal-content {
@@ -34,11 +28,6 @@
     border: none;
     margin-top:-10px;
 }
-
-form {
-    height:100%;
-}
-
 .btn-secondary {
     background: rgb(155, 235, 255);
     color:black;

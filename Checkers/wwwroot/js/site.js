@@ -19,8 +19,6 @@ $(document).ready(function () {
 
     connection.start().then(function () {
         HandleRequest();
-        //CreateGameOnClick();
-        //JoinGameOnClick();
         SendCheckerMove();
 
         connection.on("TableJoined", function (p1Name, p2Name) {
@@ -42,19 +40,19 @@ $(document).ready(function () {
         connection.on("YouMoved", function () {
             YouMoved();
         });
+
+        connection.on("ReciveMessage", function (message, messageType) {
+            ReciveMessage(message, messageType);
+        });
     });
 
-    /*
-    connection.on("ReceiveMessage", function (user, message) {
-        var li = document.createElement("li");
-        document.getElementById("messagesList").appendChild(li);
-        // We can assign user-supplied strings to an element's textContent because it
-        // is not interpreted as markup. If you're assigning in any other way, you 
-        // should be aware of possible script injection concerns.
-        li.textContent = `${user} says ${message}`;
-    });
-    */
 });
+
+function SendMessage(message, messageType) {
+    connection.invoke("SendMessage", message, messageType).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
 
 function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer) {
     // Check if at least one of the parameters is not undefined, then proceed
@@ -128,6 +126,10 @@ function EnemyMoved(newMove, checkerToDelete) {
 function YouMoved() {
     console.log("You moved, now enemy turn");
     CAN_PLAYER_MOVE = false;
+}
+
+function ReciveMessage(message, messageType) {
+    $("#chat").append('<span class="' + messageType + '">' + message + '</span>');
 }
 
 // SignalR END
