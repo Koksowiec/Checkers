@@ -1,0 +1,21 @@
+﻿<!-- Modal -->
+<div class="modal" id="victoryModal" tabindex="-1" aria-labelledby="victoryModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="hidden" value="@Model" name="gameId" />
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-custom-body">
+                <h5>You won!</h5>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Index", "Home"))
+                {
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go to main screen</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

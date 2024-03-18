@@ -1,5 +1,6 @@
 ﻿using Checkers.Domain.Entities;
 using Checkers.Domain.Interfaces;
+using Checkers.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Checkers.GameHub
@@ -8,6 +9,8 @@ namespace Checkers.GameHub
     {
         private readonly IGameRepository _gameRepository;
         private readonly IMovesRepository _movesRepository;
+        private static IList<ActiveGame> ActiveGames = new List<ActiveGame>();
+
         public GameHub(IGameRepository gameRepository,
             IMovesRepository moveRepository) 
         {
@@ -15,17 +18,38 @@ namespace Checkers.GameHub
             _movesRepository = moveRepository;
         }
 
-        /*
-        public async Task SendMessage(string user, string message)
+        public override async Task OnDisconnectedAsync(Exception ex)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            string name = Context.ConnectionId;
+
+            var gameGroup = ActiveGames.Where(g => g.P1Name == name || g.P2Name == name).FirstOrDefault();
+            string gameId;
+            if (gameGroup != null)
+            {
+                var player = gameGroup.P1Name == name ? "P1" : "P2";
+                gameId = gameGroup.GameName;
+                await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("PlayerLeft", player);
+            }    
+
+            await base.OnDisconnectedAsync(ex);
         }
-        */
+
+        public async Task SendMessage(string gameId, string message, string messageType)
+        {
+            await Clients.Group(gameId).SendAsync("ReciveMessage", message, messageType);
+        }
+        
 
         public async Task CreateGame(string gameId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             await Clients.Caller.SendAsync("GameCreated");
+            ActiveGames.Add(new ActiveGame()
+            {
+                GameName = gameId,
+                P1Name = Context.ConnectionId,
+                P2Name = string.Empty
+            });
         }
 
         public async Task JoinGame(string gameId, string p2Name)
@@ -40,6 +64,13 @@ namespace Checkers.GameHub
                     game = await _gameRepository.GetGameById(gameId);
 
                     await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+
+                    var gameGroup = ActiveGames.Where(g => g.GameName == gameId).FirstOrDefault();
+                    if (gameGroup != null)
+                    {
+                        gameGroup.P2Name = Context.ConnectionId;
+                    }
+
                     await Clients.Caller.SendAsync("YouJoined", game.P1, game.P2);
                     await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("TableJoined", game.P1, game.P2);
                 }
@@ -78,6 +109,18 @@ namespace Checkers.GameHub
                 await Clients.Caller.SendAsync("YouMoved");
                 await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("EnemyMoved", newMove, checkerToDelete);
             }
+        }
+
+        public async Task YouWin(string gameId)
+        {
+            await Clients.Caller.SendAsync("HandleVictory");
+            await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("HandleDefeat");
+        }
+
+        public async Task YouLost(string gameId)
+        {
+            await Clients.Caller.SendAsync("HandleDefeat");
+            await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("HandleVictory");
         }
     }
 }

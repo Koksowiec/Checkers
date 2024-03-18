@@ -102,3 +102,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .footer {
     background:white;
 }
+
+.hidden{
+    display: none;
+}

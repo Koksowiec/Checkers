@@ -16,7 +16,41 @@ $(document).ready(function () {
     CheckerOnClick();
 
     CellOnClick();
+
+    HandleMessage();
 });
+
+function CheckWinConditions() {
+    let p1Checkers = $("[data-player='P1'].checker");
+    let p2Checkers = $("[data-player='P2'].checker");
+    let roomNumber = $("#signalRGameId").attr("data-gameId");
+
+    if (p1Checkers.length == 0) {
+        if (CURRENT_PLAYER == "P1") {
+            YouLost(roomNumber);
+        } else {
+            YouWon(roomNumber);
+        }
+    }
+    if (p2Checkers.length == 0) {
+        if (CURRENT_PLAYER == "P2") {
+            YouLost(roomNumber);
+        } else {
+            YouWon(roomNumber);
+        }
+    }
+}
+
+function HandleMessage() {
+    $(document).on("click", "#chatBtn", function () {
+        let message = $("#chatInput").val();
+
+        if (message) {
+            let roomNumber = $("#signalRGameId").attr("data-gameId");
+            SendMessage(roomNumber, message, CURRENT_PLAYER);
+        }
+    });
+}
 
 function CheckerOnClick() {
     $(document).on("click", ".checker", function () {

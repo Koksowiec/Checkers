@@ -19,8 +19,6 @@ $(document).ready(function () {
 
     connection.start().then(function () {
         HandleRequest();
-        //CreateGameOnClick();
-        //JoinGameOnClick();
         SendCheckerMove();
 
         connection.on("TableJoined", function (p1Name, p2Name) {
@@ -42,19 +40,43 @@ $(document).ready(function () {
         connection.on("YouMoved", function () {
             YouMoved();
         });
+
+        connection.on("ReciveMessage", function (message, messageType) {
+            ReciveMessage(message, messageType);
+        });
+
+        connection.on("PlayerLeft", function (player) {
+            PlayerLeft(player);
+        });
+
+        connection.on("HandleVictory", function () {
+            HandleVictory();
+        });
+
+        connection.on("HandleDefeat", function () {
+            HandleDefeat();
+        });
     });
 
-    /*
-    connection.on("ReceiveMessage", function (user, message) {
-        var li = document.createElement("li");
-        document.getElementById("messagesList").appendChild(li);
-        // We can assign user-supplied strings to an element's textContent because it
-        // is not interpreted as markup. If you're assigning in any other way, you 
-        // should be aware of possible script injection concerns.
-        li.textContent = `${user} says ${message}`;
-    });
-    */
 });
+
+function YouLost(roomNumber) {
+    connection.invoke("YouLost", roomNumber).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function YouWon(roomNumber) {
+    connection.invoke("YouWon", roomNumber).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function SendMessage(roomNumber, message, messageType) {
+    connection.invoke("SendMessage", roomNumber, message, messageType).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
 
 function SendCheckerMove(previousCheckerRow, previousCheckerColumn, nextCheckerRow, nextCheckerColumn, checkerToDeleteRow, checkerToDeleteColumn, roomNumber, currentPlayer) {
     // Check if at least one of the parameters is not undefined, then proceed
@@ -95,7 +117,7 @@ function TableJoined(p1Name, p2Name) {
     $("#p1Name").html("P1: " + p1Name);
     $("#p2Name").html("P2: " + p2Name);
 
-    console.log("Someone joined in on the game!");
+    ReciveMessage("Someone joined in on the game!", "system");
     CAN_PLAYER_MOVE = true;
 }
 
@@ -103,7 +125,7 @@ function YouJoined(p1Name, p2Name) {
     $("#p1Name").html("P1: " + p1Name);
     $("#p2Name").html("P2: " + p2Name);
 
-    console.log("You joined in on the game!");
+    ReciveMessage("You joined in on the game!", "system");
     CAN_PLAYER_MOVE = false;
 
     if (CURRENT_PLAYER == null) {
@@ -113,7 +135,7 @@ function YouJoined(p1Name, p2Name) {
 }
 
 function GameCreated() {
-    console.log("You have successfully created a game");
+    ReciveMessage("You have successfully created a game", "system");
     CURRENT_PLAYER = "P1";
     $("#p1Name").addClass("active-player")
 }
@@ -121,13 +143,37 @@ function GameCreated() {
 function EnemyMoved(newMove, checkerToDelete) {
     UpdateTable(newMove, checkerToDelete);
 
-    console.log("Enemy moved, now your turn");
+    ReciveMessage("Enemy moved, now your turn", "system");
+
     CAN_PLAYER_MOVE = true;
+
+    CheckWinConditions();
 }
 
 function YouMoved() {
-    console.log("You moved, now enemy turn");
+    ReciveMessage("You moved, now enemy turn", "system");
     CAN_PLAYER_MOVE = false;
+
+    CheckWinConditions();
+}
+
+function ReciveMessage(message, messageType) {
+    $("#chat").append('<span class="' + messageType + '">' + message + '</span>');
+}
+
+function PlayerLeft(player) {
+    ReciveMessage(player + " left the game.", "system");
+    HandleVictory();
+}
+
+function HandleVictory() {
+    ReciveMessage("You won!", "system");
+    $("#victoryModal").show();
+}
+
+function HandleDefeat() {
+    ReciveMessage("You won!", "system");
+    $("#defeatModal").show();
 }
 
 // SignalR END
