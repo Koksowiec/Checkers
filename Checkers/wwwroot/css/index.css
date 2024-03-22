@@ -117,18 +117,7 @@
     transition: linear 0.1s
 }
 
-
-.chat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    height: 85%;
-    overflow: scroll;
-    overflow-y: hidden; /* Hide vertical scrollbar */
-    overflow-x: hidden; /* Hide horizontal scrollbar */
-}
-
-.P1 {
+.P2 {
     align-self: flex-start;
     padding: 10px;
     border-radius: 10px;
@@ -141,7 +130,7 @@
     color: white;
 }
 
-.P2 {
+.P1 {
     align-self: flex-end;
     padding: 10px;
     border-radius: 10px;

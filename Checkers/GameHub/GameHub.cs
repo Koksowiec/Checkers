@@ -29,6 +29,7 @@ namespace Checkers.GameHub
                 var player = gameGroup.P1Name == name ? "P1" : "P2";
                 gameId = gameGroup.GameName;
                 await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("PlayerLeft", player);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
             }    
 
             await base.OnDisconnectedAsync(ex);
