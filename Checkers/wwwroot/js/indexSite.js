@@ -7,7 +7,7 @@ $(document).ready(function () {
             for (var i = 0; i < response.length; i++) {
                 var user = response[i].user;
                 var count = response[i].count;
-                console.log("User: " + user + ", Count: " + count);
+                $("#highscorePlayers").append("<span>" + user + ": " + count +"</span>")
             }
         },
         error: function (xhr, status, error) {
