@@ -57,6 +57,10 @@ $(document).ready(function () {
         connection.on("HandleDefeat", function () {
             HandleDefeat();
         });
+
+        connection.on("AbandonedGame", function () {
+            HandleAbandonedGame();
+        });
     });
 
 });
@@ -196,6 +200,11 @@ function HandleVictory() {
 function HandleDefeat() {
     ReciveMessage("You won!", "system");
     $("#defeatModal").show();
+}
+
+function HandleAbandonedGame() {
+    ReciveMessage("Abandoned lobby...", "system");
+    $("#abandonedGame").show();
 }
 
 // SignalR END
