@@ -32,3 +32,39 @@
     font-size: 150%;
     transform: rotate(-5deg);
 }
+
+@keyframes pulse {
+    0% {
+        border-color: blue;
+        -webkit-box-shadow: inset 0px 0px 15px blue;
+        -moz-box-shadow: inset 0px 0px 15px blue;
+        box-shadow: inset 0px 0px 15px blue;
+        background: rgba(135, 235, 255, 0.75);
+    }
+
+    50% {
+        border-color: rgba(135, 235, 255, 0.75);
+        -webkit-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        -moz-box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        box-shadow: inset 0px 0px 15px rgb(135, 235, 255);
+        background: blue;
+        color: white;
+    }
+
+    100% {
+        border-color: blue;
+        -webkit-box-shadow: inset 0px 0px 15px blue;
+        -moz-box-shadow: inset 0px 0px 15px blue;
+        box-shadow: inset 0px 0px 15px blue;
+        background: rgba(135, 235, 255, 0.75);
+    }
+}
+
+.active-player {
+    animation: pulse 3s infinite;
+}
+
+.submit-btn:hover {
+    width: 3vw;
+    height: 3vw;
+}

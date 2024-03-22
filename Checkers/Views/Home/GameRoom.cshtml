@@ -32,7 +32,7 @@
                 Row = i,
                 Direction = CheckerDirection.Up,
             });
-        }
+        }   
     }
 
     Checker activeChecker = null;
@@ -49,6 +49,38 @@
             <div id="signalRP2Name" data-p2Name="@Model.P2Name" class="hidden"></div>
             <div id="signalRGameId" data-gameId="@Model.GameId" class="hidden"></div>
 
+            <div class="checker-board">
+                <div class="board">
+                    @for (int i = 0; i < 8; i++)
+                    {
+                        <div class="row checker-board-row">
+                            @for (int j = 0; j < 8; j++)
+                            {
+                                var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                                if (checker == null)
+                                {
+                                    checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
+                                }
+                                <div class="cell" data-row="@i" data-column="@j">
+                                    @if (checker != null)
+                                    {
+                                        <div class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
+                                             data-row="@checker.Row"
+                                             data-column="@checker.Column"
+                                             data-direction="@checker.Direction"
+                                             data-player="@checker.Player"></div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="timer">TWOJA TURA: <br />  0:00</div>
+        <div class="col-md-3">
+
+            <h2>Chat for room @Model.GameId</h2>
             <div class="row">
                 <div id="p1Name" class="col-md-4">
                     P1: @Model.P1Name
@@ -57,39 +89,20 @@
                     P2: @Model.P2Name
                 </div>
             </div>
-
-            <div class="checker-board">
-                @for (int i = 0; i < 8; i++)
-                {
-                    <div class="row checker-board-row">
-                        @for (int j = 0; j < 8; j++)
-                        {
-                            var checker = P2Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-                            if (checker == null)
-                            {
-                                checker = P1Checkers.FirstOrDefault(c => c.Column == j && c.Row == i);
-                            }
-                            <div class="cell" data-row="@i" data-column="@j">
-                                @if (checker != null)
-                                {
-                                    <div class="checker @checker.Color @(checker == activeChecker ? "active" : "")"
-                                         data-row="@checker.Row"
-                                         data-column="@checker.Column"
-                                         data-direction="@checker.Direction"
-                                         data-player="@checker.Player"></div>
-                                }
-                            </div>
-                        }
-                    </div>
-                }
-            </div>
-        </div>
-        <div class="col-md-3">
-            <h2>Chat for room @Model.GameId</h2>
             <div class="chat">
-                <span class="p1">Gl hf!</span><br />
-                <span class="p2">Niech wygra lepszy.</span><br />
-                <span class="p1">Czyli ja!</span><br />
+                <div class="p1 span">Gl hf!</div><br />
+                <div class="p2 span">Niech wygra lepszy.</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+                <div class="p1 span">Czyli ja!</div><br />
+
             </div>
             <div>
                 <input type="text" placeholder="Enter message" />
@@ -97,5 +110,4 @@
             </div>
         </div>
     </div>
-    <div id="timer">TWOJA TURA</div>
 </div>
