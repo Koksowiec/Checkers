@@ -17,7 +17,6 @@ namespace Checkers.Infrastructure.Persistance
         }
 
         public DbSet<Game> Games { get; set; }
-        public DbSet<GameDetails> GamesDetails { get; set; }
         public DbSet<Moves> Moves { get; set; }
     }
 }

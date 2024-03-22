@@ -15,5 +15,7 @@ namespace Checkers.Domain.Interfaces
         Task<Game>? GetGameById(string gameId);
         Task UpdateGameP1(string gameId, string name);
         Task UpdateGameP2(string gameId, string name);
+        Task<List<string>> GetDasboard();
+        Task UpdateWinner(string gameId, string name);
     }
 }

@@ -67,8 +67,16 @@ function YouLost(roomNumber) {
     });
 }
 
-function YouWon(roomNumber) {
-    connection.invoke("YouWon", roomNumber).catch(function (err) {
+function YouWon() {
+    let gameId = $("#signalRGameId").attr("data-gameId");
+    let name = "";
+    if (CURRENT_PLAYER == "P1") {
+        name = $("#signalRP1Name").attr("data-p1Name");
+    }
+    else {
+        name = $("#signalRP2Name").attr("data-p2Name");
+    }
+    connection.invoke("YouWin", gameId.toString(), name).catch(function (err) {
         return console.error(err.toString());
     });
 }
@@ -176,7 +184,8 @@ function ReciveMessage(message, messageType) {
 
 function PlayerLeft(player) {
     ReciveMessage(player + " left the game.", "system");
-    HandleVictory();
+    YouWon(ROOM_NUMBER);
+    //HandleVictory();
 }
 
 function HandleVictory() {

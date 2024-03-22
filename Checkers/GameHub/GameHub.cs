@@ -112,8 +112,10 @@ namespace Checkers.GameHub
             }
         }
 
-        public async Task YouWin(string gameId)
+        public async Task YouWin(string gameId, string name)
         {
+            await _gameRepository.UpdateWinner(gameId, name);
+
             await Clients.Caller.SendAsync("HandleVictory");
             await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("HandleDefeat");
         }
