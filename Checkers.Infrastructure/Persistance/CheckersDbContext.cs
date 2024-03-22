@@ -16,6 +16,11 @@ namespace Checkers.Infrastructure.Persistance
 
         }
 
+        public void PerformCheckpoint()
+        {
+            Database.ExecuteSqlRaw("PRAGMA wal_checkpoint(FULL);");
+        }
+
         public DbSet<Game> Games { get; set; }
         public DbSet<Moves> Moves { get; set; }
     }

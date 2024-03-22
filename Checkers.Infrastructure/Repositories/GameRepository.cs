@@ -22,6 +22,7 @@ namespace Checkers.Infrastructure.Repositories
         public async Task Commit()
         {
             await _dbContext.SaveChangesAsync();
+            _dbContext.PerformCheckpoint();
         }
 
         public async Task CreateAsync(string gameId, string p1Name = "")

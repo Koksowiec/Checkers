@@ -21,7 +21,6 @@ namespace Checkers.Infrastructure.Extensions
                 configuration.GetConnectionString("localDb")));
 
             service.AddScoped<IGameRepository, GameRepository>();
-            service.AddScoped<IGameDetailsRepository, GameDetailsRepository>();
             service.AddScoped<IMovesRepository, MovesRepository>();
         }
     }
