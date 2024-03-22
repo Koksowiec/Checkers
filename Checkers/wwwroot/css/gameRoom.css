@@ -20,7 +20,7 @@
     border: 3px solid blue;
 }
 
-.row {
+.chat-row {
     margin-left: 1px;
     text-align:center;
 }
@@ -35,51 +35,40 @@
     background: rgba(131, 230, 255, 0.55);
 }
 
-.col-md-9 {
+.checker-board-col {
     text-align:center;
     padding-left:15%;
 }
 
-.col-md-3 {
+.chat-col {
     background: rgba(55, 208, 255, 0.43);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     -webkit-backdrop-filter: blur(5.2px);
-    scrollbar-color: transparent transparent;
     text-align: center;
     height:85vh;
-    overflow:scroll;
-}
-
-.span {
-    font-size: 18px;
-    text-shadow: 0 0 6px white;
-    height: 200px;
-    overflow:scroll;
-    padding:10px;
-    margin:5px;
+    overflow:auto;
 }
 
 .chat {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    height: 79%;
-    overflow: scroll;
-
+    height: 80%;
+    overflow: auto;
 }
 
-.col-md-3 Input {
+.chat-col Input {
     width: 75%;
     height: 1.75rem;
     font-size: 1.55rem;
-    margin-top:5%;
-    top:30%;
+    margin-top: 5%;
+    top: 30%;
     right: 10px;
-    height:2rem;
+    height: 2rem;
 }
 
-.col-md-3 button {
+.chat-col button {
     width: 15%;
     height: 1.75rem;
     border-radius: 2px;
@@ -93,11 +82,11 @@
     border: solid rgba(135, 235, 255, 0.75) 1px;
     text-shadow: 0 0 6px white;
     transition: linear 0.1s;
-    overflow:hidden;
-    scroll-behavior:unset;
+    overflow: hidden;
+    scroll-behavior: unset;
 }
 
-.col-md-4 {
+.player-name-col {
     width: 50%;
     font-size: 1.55rem;
     box-shadow: inset 0px 0px 15px blue;

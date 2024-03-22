@@ -28,7 +28,18 @@ namespace Checkers.GameHub
             {
                 var player = gameGroup.P1Name == name ? "P1" : "P2";
                 gameId = gameGroup.GameName;
+
+                if(gameGroup.P1Name == Context.ConnectionId)
+                {
+                    gameGroup.P1Name = "";
+                }
+                else
+                {
+                    gameGroup.P2Name = "";
+                }
+
                 await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("PlayerLeft", player);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
             }    
 
             await base.OnDisconnectedAsync(ex);
@@ -60,10 +71,17 @@ namespace Checkers.GameHub
                 if(game.P2 == string.Empty)
                 {
                     await _gameRepository.UpdateGameP2(gameId, p2Name);
-                    // Update game variable
-                    game = await _gameRepository.GetGameById(gameId);
 
                     await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+                    var activeGame = ActiveGames.Where(a => a.GameName == gameId).Select(a => a.P1Name).ToList();
+                    if (!activeGame.Any() || string.IsNullOrEmpty(activeGame[0]))
+                    {
+                        await Clients.Caller.SendAsync("AbandonedGame");
+                        return;
+                    }
+
+                    // Update game variable
+                    game = await _gameRepository.GetGameById(gameId);
 
                     var gameGroup = ActiveGames.Where(g => g.GameName == gameId).FirstOrDefault();
                     if (gameGroup != null)
@@ -111,8 +129,10 @@ namespace Checkers.GameHub
             }
         }
 
-        public async Task YouWin(string gameId)
+        public async Task YouWin(string gameId, string name)
         {
+            await _gameRepository.UpdateWinner(gameId, name);
+
             await Clients.Caller.SendAsync("HandleVictory");
             await Clients.GroupExcept(gameId, Context.ConnectionId).SendAsync("HandleDefeat");
         }

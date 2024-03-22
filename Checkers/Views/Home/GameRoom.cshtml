@@ -37,6 +37,7 @@
 
     Checker activeChecker = null;
 }
+
 <video autoplay muted loop id="myVideo">
     <source src="/assets/videos/background.mp4" type="video/mp4">
 </video>
@@ -44,9 +45,11 @@
 <div>
     <partial name="_VictoryModal"></partial>
     <partial name="_DefeatModal"></partial>
+    <partial name="_AbandonedGameModal"></partial>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-9 checker-board-col">
             <div id="signalRMethod" data-method="@Model.Method" class="hidden"></div>
+            <div id="signalRP1Name" data-p1Name="@Model.P1Name" class="hidden"></div>
             <div id="signalRP2Name" data-p2Name="@Model.P2Name" class="hidden"></div>
             <div id="signalRGameId" data-gameId="@Model.GameId" class="hidden"></div>
 
@@ -78,32 +81,18 @@
                 </div>
             </div>
         </div>
-        <div class="timer">TWOJA TURA: <br />  0:00</div>
-        <div class="col-md-3">
-
+        <div class="timer hidden">YOUR TURN: <br />  0:00</div>
+        <div class="col-md-3 chat-col">
             <h2>Chat for room @Model.GameId</h2>
-            <div class="row">
-                <div id="p1Name" class="col-md-4">
+            <div class="row chat-row">
+                <div id="p1Name" class="col-md-4 player-name-col">
                     P1: @Model.P1Name
                 </div>
-                <div id="p2Name" class="col-md-4">
+                <div id="p2Name" class="col-md-4 player-name-col">
                     P2: @Model.P2Name
                 </div>
             </div>
             <div id="chat" class="chat">
-                <div class="P1 span">Gl hf!</div><br />
-                <div class="P2 span">Niech wygra lepszy.</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-                <div class="P1 span">Czyli ja!</div><br />
-
             </div>
             <div>
                 <input id="chatInput" type="text" placeholder="Enter message" />
@@ -112,3 +101,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/gameHub.js"></script>

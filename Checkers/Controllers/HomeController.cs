@@ -54,6 +54,24 @@ namespace Checkers.Controllers
             return View("GameRoom", request);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetDashboard()
+        {
+            var winners = await _gameRepository.GetDasboard();
+            if(winners != null)
+            {
+                var topUsers = winners
+                    .GroupBy(u => u)
+                    .Select(g => new { User = g.Key, Count = g.Count() })
+                    .OrderByDescending(u => u.Count)
+                    .Take(10);
+
+                return Ok(topUsers);
+            }
+
+            return BadRequest();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

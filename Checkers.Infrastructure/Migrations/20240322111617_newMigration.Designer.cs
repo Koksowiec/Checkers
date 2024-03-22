@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Checkers.Infrastructure.Migrations
 {
     [DbContext(typeof(CheckersDbContext))]
-    [Migration("20240304172442_DbCreation")]
-    partial class DbCreation
+    [Migration("20240322111617_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace Checkers.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.16");
 
-            modelBuilder.Entity("Checkers.Models.DbModels.Game", b =>
+            modelBuilder.Entity("Checkers.Domain.Entities.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,10 +33,6 @@ namespace Checkers.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("StartingPlayer")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Winner")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -46,29 +42,7 @@ namespace Checkers.Infrastructure.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("Checkers.Models.DbModels.GameDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("P1_Color")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("P2_Color")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GamesDetails");
-                });
-
-            modelBuilder.Entity("Checkers.Models.DbModels.Moves", b =>
+            modelBuilder.Entity("Checkers.Domain.Entities.Moves", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

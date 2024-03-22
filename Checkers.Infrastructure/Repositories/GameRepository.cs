@@ -22,6 +22,7 @@ namespace Checkers.Infrastructure.Repositories
         public async Task Commit()
         {
             await _dbContext.SaveChangesAsync();
+            _dbContext.PerformCheckpoint();
         }
 
         public async Task CreateAsync(string gameId, string p1Name = "")
@@ -32,7 +33,6 @@ namespace Checkers.Infrastructure.Repositories
                 P1 = p1Name,
                 P2 = "",
                 Winner = "",
-                StartingPlayer = ""
             };
 
             await _dbContext.AddAsync(game);
@@ -71,6 +71,28 @@ namespace Checkers.Infrastructure.Repositories
                 _dbContext.Update(game);
                 await Commit();
             }
+        }
+
+        public async Task UpdateWinner(string gameId, string name)
+        {
+            var game = await GetGameById(gameId);
+            if (game != null)
+            {
+                game.Winner = name;
+
+                _dbContext.Update(game);
+                await Commit();
+            }
+        }
+
+        public async Task<List<string>> GetDasboard()
+        {
+            var allGamesWinners = _dbContext.Games.Select(g => g.Winner).Where(g => !string.IsNullOrEmpty(g)).ToList();
+            if(allGamesWinners.Any())
+            {
+                return allGamesWinners;
+            }
+            return null;
         }
     }
 }
