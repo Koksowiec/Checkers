@@ -30,13 +30,13 @@
         <div class="col-md-8 main-menu">
             <div class="title">C H E C K E R S</div>
             <div class="glass">
-                @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
+                @using (Html.BeginForm("Join", "Home", FormMethod.Post))
                 {
                     <p class="input-title">Enter your name</p>
                     <input class="custom-input" name="p2Name" type="text">
                     <p class="input-title">Enter room number</p>
                     <input class="custom-input" name="gameId" type="number">
-                    <button type="submit" class="submit-btn">Go to room</button>
+                    <button type="submit" class="submit-btn btn-position">Join</button>
                 }
             </div>
             <partial name="_CreateRoomModal" model="string.Empty"></partial>
