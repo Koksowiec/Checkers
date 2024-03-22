@@ -1,11 +1,11 @@
 ﻿@model string
 <!-- Button trigger modal -->
-<button type="button" class="submit-btn" data-bs-toggle="modal" data-bs-target="#joinRoomModal">
+<button type="button" class="submit-btn" data-bs-toggle="modal" data-bs-target="#joinRoomModal-@Model">
     Join
 </button>
 
 <!-- Modal -->
-<div class="modal" id="joinRoomModal" tabindex="-1" aria-labelledby="joinRoomModal" aria-hidden="true">
+<div class="modal" id="joinRoomModal-@Model" tabindex="-1" aria-labelledby="joinRoomModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @using (Html.BeginForm("JoinGame", "Home", FormMethod.Post))
