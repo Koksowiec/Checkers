@@ -85,13 +85,16 @@ Do frontendu wykorzystujemy stworzone przez ASP.NET widoki. Widoki pozwalają na
 **gameHub.js/** - po załadowaniu dokumentu nawiązuje połączenie z serwerem poprzez SignalR, opowiada za odpowiedzi z serwera i wysyłanie do niego żądań
 ## Struktura bazy danych
 ### Szczególowy opis tabel
-** Game **:
+Baza wykonana w SQLite
+
+**Game**:
 - Id [Key] (int)
 - P1 (string)
 - P2 (string)
 - Winner (string)
 Przykład: 123456, "Gracz 1", "Gracz 2", "Gracz 1"
-** Moves **:
+
+**Moves**:
 - Id [Key] (int)
 - GameId (int)
 - P1_Moves (string)
