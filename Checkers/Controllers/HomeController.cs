@@ -10,12 +10,10 @@ namespace Checkers.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IGameRepository _gameRepository;
 
-        public HomeController(ILogger<HomeController> logger, IGameRepository gameRepository)
+        public HomeController(IGameRepository gameRepository)
         {
-            _logger = logger;
             _gameRepository = gameRepository;
         }
 
