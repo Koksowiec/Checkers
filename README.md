@@ -30,6 +30,23 @@ Standardowa komunikacja w ASP.NET MVC. Po wejściu na stronę kontroler zwraca w
 5. Kiedy użytkownik dołączy do gry z endpointa JoinRoom, jest on dodawany do grupy o id gry do której dołącza.
 6. Grupy są dwuosobowe, po dołączeniu drugiego gracza nikt więcej nie może tego zrobić.
 7. Kiedy jeden z graczy wyjdzie, wykonywana jest odpowiednia metoda OnDisconnect, która zapewnia graczowi wciąż połączonemu do serwera automatycze zwycięstwo.
+
+** HomeController/Index ** - pobiera dane o grach z game repository, zwraca widok Index.cshtml oraz przekazuje tam model gier
+** HomeController/CreateGame(string gameId, string p1Name) ** - przyjmuje 2 argumenty, tworzy nową grę w bazie danych, zwraca widok GameRoom.cshtml z modelem RequestViewModel, zawierającym informację o metodzie (tutaj create) oraz o graczu i numerze gry
+** HomeController/JoinGame(string gameId, string p2Name) ** - przyjmuje 2 argumenty, zwraca widok GameRoom.cshtml z modelem RequestViewModel, zawierającym informację o metodzie (tutaj join) oraz o graczu i numerze gry
+** HomeController/GetDashboard() ** - pobiera listę zwycięzców gier z bazy danych, zlicza ich ilość wygranych gier i zwraca Json z tą informacją i status 200, kiedy się nie uda zwraca BadRequest ze statusem 400
+
+** SignalR/OnDisconnectedAsync(Exception ex) ** - przyjmuje error, kiedy gracz wyjdzie z gry lub utraci połączenie jest wywoływana automatycznie, usuwa gracza z grupy oraz wysyła informację do gracza wciąż połączonego aby po jego stronie wykonała się metoda "PlayerLeft"
+** SignalR/SendMessage(string gameId, string message, string messageType) ** - przyjmuje 3 argumenty, po id gry znajdowany jest gracz do którego należy wysłać wiadomość, która może mieć jeden z 3 typów: P1, P2, system, zwraca do gracza informację o wywołanie metody "ReciveMessage"
+** SignalR/CreateGame(string gameId) ** - przyjmuje gameId, dodaje gracza do nowej grupy, tworzy grę w bazie danych, zwraca do wywołującego gracza informację o wywołanie metody "CreateGame"
+** SignalR/JoinGame(string gameId, string p2Name) ** - przyjmuje 2 argumenty, dołącza gracza do gry i aktualizuje bazę danych, dodaje gracza do grupy gdzie oczekuje na niego gracz 1 jeżeli takowa istnieje, jeżeli nie to odsyła informację o wywołanie metody "AbandonedGame". Jeżeli istnieje, to wysyła do użytkownika wywołującego informację o wywołanie metody "YouJoined" a do drugiego "TableJoined"
+** SignalR/MakeMove(
+            int previousCheckerRow, int previousCheckerColumn, 
+            int nextCheckerRow, int nextCheckerColumn, 
+            int checkerToDeleteRow, int checkerToDeleteColumn,
+            string gameId, string currentPlayer)) ** - przyjmuje 8 argumentów, tworzy ruch do bazy danych w formacie previousCheckerColumn-previousCheckerRow_nextCheckerColumn-nextCheckerRow. Odsyła do użytkownika wywołującego informację o wywołanie metody "YouMoved" a do drugiego "EnemyMoved" z informacją o ruchu oraz opcjonalnym zbitym pionkiem
+** SignalR/YouWin(string gameId, string name) ** - przyhmuje 2 argumenty, aktualizuje wygranego w bazie danych, odsyła do wywołującego użytkownika informację o wywołanie metody "HandleVictory" a do drugiego "HandleDefeat"
+** SignalR/YouLost(string gameId, string name) ** - wykonuje odwrotność tego co YouWin
 ## Frontend
 Do frontendu wykorzystujemy stworzone przez ASP.NET widoki. Widoki pozwalają nam na używanie HTML, CSS, JQuery, AJAX oraz samego C# w widokach. Stosujemy zasadę "unobstrusive javascript", nie używamy onclick tylko wykorzystujemy id elementów html aby wykonywać na nich akcje w odpowiednich plikach .js. Mamy zainstalowaną paczkę JQuery SignalR, pozwalającą nam na komunikację z backendem. Nie używamy żadnego frameworka ponieważ było by to tak zwanym "overkill". W aplikacji tej wielkości wystarcza nam w zupełności to do czego już mamy dostęp.
 ### Szczegółowy opis fucnkji JQuery oraz SignalR
@@ -39,13 +56,13 @@ Do frontendu wykorzystujemy stworzone przez ASP.NET widoki. Widoki pozwalają na
 ## Struktura bazy danych
 ### Szczególowy opis tabel
 ** Game **:
-- Id [Key](int)
+- Id [Key] (int)
 - P1 (string)
 - P2 (string)
 - Winner (string)
 Przykład: 123456, "Gracz 1", "Gracz 2", "Gracz 1"
 ** Moves **:
-- Id [Key](int)
+- Id [Key] (int)
 - GameId (int)
 - P1_Moves (string)
 - P2_Moves (string)
