@@ -17,10 +17,13 @@ Stworzone za pomocą ASP.NET MVC, .NET 7. Ułatwi nam to komunikację backend-fr
 ### Design
 Zastosowany został wzór projektowy "Clean architecture". Zgodnie z jego założeniami baza danych, modele i interfejsy repozytorów znajdują się w warstwie "Domain". W warstwie "Infrastructure" posiadamy implementację komunikacji z bazą danych SQLite. W Warstwie "Application" znajdują się serwisy i kod wykonywany w kontrolerach lub w GameHubie.
 ### Komunikacja z Frontendem
-Standardowa komunikacja w ASP.NET MVC. Po wejściu na stronę kontroler zwraca widok. Z widoku wysyłamy model do kontrolera, który odpowiednio przekierowuje do gry. Na ten moment posiadamy 3 kontrolery: HomeController, JoinGameController i CreateGameController.<br /><br />
-- **HomeController** - Zwraca widok główny z listą dostępnych pokoi z bazy danych (jeśli takowe istnieją).<br />
-- **CreateGameController** - Odbiera model z widoku zawierający nazwę użytkownika oraz wygenerowany na frontendzie numer pokoju. Tworzy nową grę w bazie danych, przekierowuje na widok GameRoom z modelem Request zawierającym nazwę gracza oraz rodzaj requesta, w tym wypadku "CreateGame". W widoku ustanawiane jest połączenie z SignalR i wysyłane do niego rządanie z modelu ("CreateGame") i rozpoczyna się oczekiwanie na dołączenie drugiego gracza.<br />
-- **JoinGameController** - Odbiera model z widoku zawierający nazwę użytkownika oraz podany na frontendzie numer pokoju. Przekierowuje na widok GameRoom z modelem Request zawierającym nazwę gracza oraz rodzaj requesta, w tym wypadku "JoinGame". W widoku ustanawiane jest połączenie z SignalR i wysyłane do niego rządanie z modelu ("JoinGame"). Stamtąd wysyłany jest sygnał do gracza pierwszego z informacją o dołączeniu użytkownika i rozpoczyna się rozgrywka.<br /><br />
+Standardowa komunikacja w ASP.NET MVC. Po wejściu na stronę kontroler zwraca widok. Z widoku wysyłamy model do kontrolera, który odpowiednio przekierowuje do gry. Na ten moment posiadamy 3 metody w kontrolerze HomeController: Index, JoinGame i CreateGame.<br /><br />
+- **HomeController/Index** - Zwraca widok główny z listą dostępnych pokoi z bazy danych (jeśli takowe istnieją).<br />
+
+- **HomeController/CreateGame** - Odbiera model z widoku zawierający nazwę użytkownika oraz wygenerowany na frontendzie numer pokoju. Tworzy nową grę w bazie danych, przekierowuje na widok GameRoom z modelem Request zawierającym nazwę gracza oraz rodzaj requesta, w tym wypadku "CreateGame". W widoku ustanawiane jest połączenie z SignalR i wysyłane do niego rządanie z modelu ("CreateGame") i rozpoczyna się oczekiwanie na dołączenie drugiego gracza.<br />
+
+- **HomeController/JoinGame** - Odbiera model z widoku zawierający nazwę użytkownika oraz podany na frontendzie numer pokoju. Przekierowuje na widok GameRoom z modelem Request zawierającym nazwę gracza oraz rodzaj requesta, w tym wypadku "JoinGame". W widoku ustanawiane jest połączenie z SignalR i wysyłane do niego rządanie z modelu ("JoinGame"). Stamtąd wysyłany jest sygnał do gracza pierwszego z informacją o dołączeniu użytkownika i rozpoczyna się rozgrywka.<br /><br />
+
 **SignalR** - Do komunikacji między graczami znajdującymi się w grze wykorzystaliśmy SignalR. Narzędzie to pozwala nam tworzyć grupy użytkowników, jako nazwę grupy wykorzystujemy numer pokoju. W jednej grupie może być maksymalnie dwóch graczy. Po wykonaniu przez graczy akcji na frontendzie wysyłany jest sygnał do SignalR poprzez JQuery. Następnie serwer zwraca odpowiedni komunikat, który wywołuje znajdującą się na frontendzie funkcję. Przykładem może być funkcja MakeMove, wysyłająca do SignalR informację o wykonanym ruchu. Następnie SignalR przetwarza informacje, zapisuje ruch do bazy danych i odsyła odpowiednią informację drugiemu graczowi.<br />
 ### Szczegółowy opis komunikacji z bazą danych oraz metod SignalR
 1. Kiedy użytkownik wejdzie do game roomu, poprzez JoinRoom albo CreateRoom endpoint z kontrolera następuje ustanowienie połączenia z serwerem SignalR.
@@ -32,8 +35,11 @@ Standardowa komunikacja w ASP.NET MVC. Po wejściu na stronę kontroler zwraca w
 7. Kiedy jeden z graczy wyjdzie, wykonywana jest odpowiednia metoda OnDisconnect, która zapewnia graczowi wciąż połączonemu do serwera automatycze zwycięstwo.
 
 **HomeController/Index** - pobiera dane o grach z game repository, zwraca widok Index.cshtml oraz przekazuje tam model gier
+
 **HomeController/CreateGame(string gameId, string p1Name)** - przyjmuje 2 argumenty, tworzy nową grę w bazie danych, zwraca widok GameRoom.cshtml z modelem RequestViewModel, zawierającym informację o metodzie (tutaj create) oraz o graczu i numerze gry
+
 **HomeController/JoinGame(string gameId, string p2Name)** - przyjmuje 2 argumenty, zwraca widok GameRoom.cshtml z modelem RequestViewModel, zawierającym informację o metodzie (tutaj join) oraz o graczu i numerze gry
+
 **HomeController/GetDashboard()** - pobiera listę zwycięzców gier z bazy danych, zlicza ich ilość wygranych gier i zwraca Json z tą informacją i status 200, kiedy się nie uda zwraca BadRequest ze statusem 400
 
 **SignalR/OnDisconnectedAsync(Exception ex)** - przyjmuje error, kiedy gracz wyjdzie z gry lub utraci połączenie jest wywoływana automatycznie, usuwa gracza z grupy oraz wysyła informację do gracza wciąż połączonego aby po jego stronie wykonała się metoda "PlayerLeft"
