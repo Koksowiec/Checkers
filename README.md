@@ -106,3 +106,10 @@ Przykład: 123456, "Gracz 1", "Gracz 2", "Gracz 1"
 - P1_Moves (string)
 - P2_Moves (string)
 Przykład: 1, 123456, "1-1_2-3;2-3_3-5;", "1-1_2-3;2-3_3-5;"
+
+## Testy
+### Testy jednostkowe
+Stworzyliśmy przykładowe testy jednostkowe controlerów, sprawdzającę ich podstawowe funkcje. Rozważaliśmy testowanie serwera SignalR jednak sposób w jaki go zaimplementowaliśmy utrudnia nam przeprowadzenie jego testów jednostkowych. Musialby on być ciągle włączony a mockowanie jego działania mija się z celem.
+
+### Testy regresyjne
+Przetestowaliśmy aplikację "od stóp do głow" tworząc plik Word z wypisaniem wszystkich działających jak i błędnie działających fragmentów aplikacji. Jeżeli bylibyśmy zainteresowani dalszym jej rozwojem to wykorzystamy ten plik do poprawy jakości.
