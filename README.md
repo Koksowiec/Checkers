@@ -4,6 +4,13 @@ Krzysztof Szczepański <br />
 Adam Kwika <br />
 Mikołaj Tomasiczek <br />
 
+## Film z działania aplikacji
+https://drive.google.com/file/d/1Ni3bqWYoDwrswOODW_UeSMoW4FQ577LI/view?usp=drive_link
+
+## Jak włączyć
+1. Można pobrać cały projekt na swój komputer i za pomocą Visual Studio 2022 otworzyć plik .sln
+2. Można otworzyć Visual Studio 2022 i wybrać opcję "Clone Project" i postępować zgodnie z poleceniami.
+
 ## Dlaczego?
 Jako grupa chcielibyśmy sprawdzić swoje umiejętnosći i stworzyć pełnoprawną aplikację internetową, pozwalającą graczom grać wspólnie w warcaby.
 
