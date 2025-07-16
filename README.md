@@ -1,4 +1,39 @@
 # Checkers - multiplayer
+This project was created for university classes. It is a web app allowing for multiplayer checkers game. This project was exectued in a group of 3 where I was a teamlead. As part of business requirements we had to create a sepcific readme description in polish. Below is a short summary in english.
+
+### Project Overview
+A group of students (Krzysztof Szczepański, Adam Kwika, Mikołaj Tomasiczek) developed a multiplayer checkers web application to test their skills.
+
+### How to Run
+Open the project using Visual Studio 2022 by cloning the repository or opening the .sln file.
+
+### Technology Stack
+#### Backend: ASP.NET MVC (.NET 7), Entity Framework, SignalR
+#### Frontend: HTML, CSS, jQuery, AJAX (no frameworks used)
+
+### Architecture
+The app follows Clean Architecture principles with separation between Domain, Infrastructure, and Application layers. SignalR is used for real-time multiplayer communication between two players in a checkers game.
+### Key Features
+- Create and join game rooms using 6-digit codes
+- Real-time gameplay with SignalR (move sync, chat, win detection)
+- Game data stored in SQLite
+- Functional dashboard showing top players
+- Graceful handling of disconnects (auto-win for remaining player)
+
+#### Frontend Functionality
+- Dynamic room code generation
+- Click-based checker movement and validation logic
+- UI interactions using Bootstrap modals and unobtrusive JavaScript
+
+### Testing
+- Unit tests for controllers
+- Manual regression tests documented in a Word file
+
+### Demo Video
+A video showcasing the app is available here: https://drive.google.com/file/d/1Ni3bqWYoDwrswOODW_UeSMoW4FQ577LI/view?usp=drive_link.
+
+# Polish documentation
+
 ## Członkowie:
 Krzysztof Szczepański <br />
 Adam Kwika <br />
